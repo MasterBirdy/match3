@@ -14,7 +14,7 @@ public class AnimalTile : MonoBehaviour
     public float targetY;
     public float previousTargetX;
     public float previousTargetY;
-    private bool isMatched = false;
+    public bool isMatched = false;
     private Board board;
     private GameObject otherAnimal;
     private Vector2 firstTouchPosition;
@@ -27,23 +27,6 @@ public class AnimalTile : MonoBehaviour
     {
         swipeResist = 0.3f;
         board = FindObjectOfType<Board>();
-        s = this.name.Split(' ');
-        try
-        {
-        row = Int32.Parse(s[1]);
-        }
-        catch
-        {
-            Debug.Log("error");
-        }
-        try
-        {
-            column = Int32.Parse(s[0]);
-        }
-        catch
-        {
-            Debug.Log("error");
-        }
         targetX = transform.position.x;
         targetY = transform.position.y;
         previousRow = row;
@@ -98,7 +81,7 @@ public class AnimalTile : MonoBehaviour
 
     public IEnumerator CheckMoveCo()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.3f);
         if (otherAnimal != null)
         {
             if (!isMatched && !otherAnimal.GetComponent<AnimalTile>().isMatched)
@@ -113,6 +96,10 @@ public class AnimalTile : MonoBehaviour
                 targetX = previousTargetX;
                 targetY = previousTargetY;
                 board.allAnimals[column, row] = gameObject;
+            }
+           else
+            {
+                board.DestroyMatches();
             }
             otherAnimal = null;
         }
