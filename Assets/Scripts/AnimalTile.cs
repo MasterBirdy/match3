@@ -204,30 +204,36 @@ public class AnimalTile : MonoBehaviour
     {
         if (column > 0 && column < board.width - 1)
         {
-            GameObject leftAnimal1 = board.allAnimals[column - 1, row];
-            GameObject rightAnimal1 = board.allAnimals[column + 1, row];
-            if (leftAnimal1.tag == this.gameObject.tag && 
-                rightAnimal1.tag == this.gameObject.tag && 
-                leftAnimal1.tag == rightAnimal1.tag)
+            if (board.allAnimals[column - 1, row] != null && board.allAnimals[column + 1, row] != null && board.allAnimals[column, row] != null)
             {
-                leftAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                rightAnimal1.GetComponent <AnimalTile>().isMatched = true;
-                isMatched = true;
+                GameObject leftAnimal1 = board.allAnimals[column - 1, row];
+                GameObject rightAnimal1 = board.allAnimals[column + 1, row];
+                if (leftAnimal1.tag == this.gameObject.tag &&
+                    rightAnimal1.tag == this.gameObject.tag &&
+                    leftAnimal1.tag == rightAnimal1.tag)
+                {
+                    leftAnimal1.GetComponent<AnimalTile>().isMatched = true;
+                    rightAnimal1.GetComponent<AnimalTile>().isMatched = true;
+                    isMatched = true;
+                }
             }
+
         }
 
         if (row > 0 && row < board.height - 1)
         {
-
-            GameObject downAnimal1 = board.allAnimals[column, row - 1];
-            GameObject upAnimal1 = board.allAnimals[column, row + 1];
-            if (upAnimal1.tag == this.gameObject.tag && 
-                downAnimal1.tag == this.gameObject.tag && 
-                upAnimal1.tag == downAnimal1.tag)
+            if (board.allAnimals[column , row-1] != null && board.allAnimals[column, row] != null && board.allAnimals[column, row +1] != null)
             {
-                upAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                downAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                isMatched = true;
+                GameObject downAnimal1 = board.allAnimals[column, row - 1];
+                GameObject upAnimal1 = board.allAnimals[column, row + 1];
+                if (upAnimal1.tag == this.gameObject.tag &&
+                    downAnimal1.tag == this.gameObject.tag &&
+                    upAnimal1.tag == downAnimal1.tag)
+                {
+                    upAnimal1.GetComponent<AnimalTile>().isMatched = true;
+                    downAnimal1.GetComponent<AnimalTile>().isMatched = true;
+                    isMatched = true;
+                }
             }
         }
 

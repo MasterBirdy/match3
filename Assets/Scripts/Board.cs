@@ -87,7 +87,7 @@ public class Board : MonoBehaviour
                 DestroyMatchesAt(j, i);
             }
         }
-        StartCoroutine(RefillBoard());
+        StartCoroutine(DecreaseRowCo());
     }
 
     private IEnumerator DecreaseRowCo()
@@ -111,13 +111,13 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.15f);
+        StartCoroutine(FillBoardCo());
 
     }
 
-    private IEnumerator RefillBoard()
+    private void RefillBoard()
     {
-        yield return StartCoroutine(DecreaseRowCo());
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -133,7 +133,37 @@ public class Board : MonoBehaviour
             }
         }
     }
- 
+
+    private IEnumerator FillBoardCo()
+    {
+        RefillBoard();
+        yield return new WaitForSeconds(.3f);
+
+        while (MatchesOnBoard())
+        {
+            yield return new WaitForSeconds(.05f);
+            DestroyMatches();
+        }
+    }
+
+    private bool MatchesOnBoard()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (allAnimals[i, j] != null)
+                {
+                    if(allAnimals[i,j].GetComponent<AnimalTile>().isMatched)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
 
     // Update is called once per frame
