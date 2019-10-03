@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    WAIT,
+    MOVE
+}
 public class Board : MonoBehaviour
 {
-
+    public GameState currentState = GameState.MOVE;
     public int height = 7;
     public int width = 7;
     public float padding = .1f;
     [SerializeField] private GameObject[] animalChoices;
     public GameObject[,] allAnimals;
-    //private BackgroundTile[,];
-    [SerializeField] GameObject tile;
     // Start is called before the first frame update
     void Start()
     {
@@ -78,8 +81,9 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void DestroyMatches()
+    public IEnumerator DestroyMatches()
     {
+
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
@@ -87,7 +91,7 @@ public class Board : MonoBehaviour
                 DestroyMatchesAt(j, i);
             }
         }
-        StartCoroutine(DecreaseRowCo());
+        yield return StartCoroutine(DecreaseRowCo());
     }
 
     private IEnumerator DecreaseRowCo()
@@ -111,8 +115,8 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(.15f);
-        StartCoroutine(FillBoardCo());
+        yield return new WaitForSeconds(.2f);
+        yield return StartCoroutine(FillBoardCo());
 
     }
 
@@ -136,14 +140,17 @@ public class Board : MonoBehaviour
 
     private IEnumerator FillBoardCo()
     {
+     //   currentState = GameState.WAIT;
         RefillBoard();
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.20f);
 
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(.05f);
-            DestroyMatches();
+            yield return new WaitForSeconds(.20f);
+            yield return StartCoroutine(DestroyMatches());
         }
+       // yield return new WaitForSeconds(.1f);
+
     }
 
     private bool MatchesOnBoard()
@@ -164,7 +171,17 @@ public class Board : MonoBehaviour
         return false;
     }
 
+    public IEnumerator StartDestroyAll()
+    {
+        yield return StartCoroutine(DestroyMatches());
+        currentState = GameState.MOVE;
 
+    }
+
+    public void StartDestroyAllNow()
+    {
+        StartCoroutine(StartDestroyAll());
+    } 
 
     // Update is called once per frame
     void Update()

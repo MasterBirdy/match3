@@ -22,6 +22,7 @@ public class AnimalTile : MonoBehaviour
     public float swipeAngle = 0;
     public float swipeResist = 0f;
     public string[] s;
+    private bool mouseDown = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,17 +45,29 @@ public class AnimalTile : MonoBehaviour
         if (isMatched)
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
-            mySprite.color = new Color(0f, 0f, 0f);
+            StartCoroutine(FadeToBlack(mySprite));
         }
     }
 
-    private void MoveTowardsTarget()
+    IEnumerator FadeToBlack(SpriteRenderer s)
+    {
+        for (float i = 1f; i >= 0; i -= Time.deltaTime * 1.4f)
+        {
+            s.color = new Color(1, 1, 1, i);
+            yield return null;
+        }
+    }
+
+        private void MoveTowardsTarget()
     {
         if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
             //move towards the target
             Vector2 tempPosition = new Vector2(targetX, transform.position.y);
-            transform.position = Vector2.Lerp(transform.position, tempPosition, .2f);
+            if (Mathf.Abs(targetX - transform.position.x) > 1)
+                transform.position = Vector2.Lerp(transform.position, tempPosition, .1f);
+            else
+                transform.position = Vector2.Lerp(transform.position, tempPosition, .15f);
         }
         else
         {
@@ -68,7 +81,10 @@ public class AnimalTile : MonoBehaviour
         {
             //move towards the target
             Vector2 tempPosition = new Vector2(transform.position.x, targetY);
-            transform.position = Vector2.Lerp(transform.position, tempPosition, .2f);
+            if (Mathf.Abs(targetY - transform.position.y) > 1)
+                transform.position = Vector2.Lerp(transform.position, tempPosition, .1f);
+            else
+                transform.position = Vector2.Lerp(transform.position, tempPosition, .15f);
         }
         else
         {
@@ -81,7 +97,7 @@ public class AnimalTile : MonoBehaviour
 
     public IEnumerator CheckMoveCo()
     {
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.25f);
         if (otherAnimal != null)
         {
             if (!isMatched && !otherAnimal.GetComponent<AnimalTile>().isMatched)
@@ -96,10 +112,12 @@ public class AnimalTile : MonoBehaviour
                 targetX = previousTargetX;
                 targetY = previousTargetY;
                 board.allAnimals[column, row] = gameObject;
+                yield return new WaitForSeconds(.25f);
+                board.currentState = GameState.MOVE;
             }
            else
             {
-                board.DestroyMatches();
+                board.StartDestroyAllNow();
             }
             otherAnimal = null;
         }
@@ -107,14 +125,21 @@ public class AnimalTile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(firstTouchPosition);
+        if (board.currentState == GameState.MOVE)
+        {
+            firstTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mouseDown = true;
+        }
     }
 
     private void OnMouseUp()
     {
-        finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        CalculateAngle();
+        if (board.currentState == GameState.MOVE && mouseDown)
+        {
+            finalTouchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            CalculateAngle();
+            mouseDown = false;
+        }
     }
 
     void CalculateAngle()
@@ -124,8 +149,12 @@ public class AnimalTile : MonoBehaviour
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y,
                 finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
-            Debug.Log(swipeAngle);
+            board.currentState = GameState.WAIT;
             MovePieces();
+        }
+        else
+        {
+            // board.currentState = GameState.MOVE;
         }
     }
 
@@ -175,6 +204,8 @@ public class AnimalTile : MonoBehaviour
         else if (swipeAngle < -45 && swipeAngle >= -135 && row > 0)
         {
             // down swipe
+            Debug.Log(board.allAnimals[column, row - 1].tag);
+
             otherAnimal = board.allAnimals[column, row - 1];
 
             board.allAnimals[column, row] = otherAnimal;
