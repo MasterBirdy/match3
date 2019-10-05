@@ -14,10 +14,13 @@ public class Board : MonoBehaviour
     public int width = 7;
     public float padding = .1f;
     [SerializeField] private GameObject[] animalChoices;
+    [SerializeField] public GameObject explosion;
     public GameObject[,] allAnimals;
+    private FindMatches findMatches;
     // Start is called before the first frame update
     void Start()
     {
+        findMatches = FindObjectOfType<FindMatches>();
         allAnimals = new GameObject[width, height];
         for (int j = 0; j < height; j++)
         {
@@ -76,6 +79,9 @@ public class Board : MonoBehaviour
     {
         if (allAnimals[column, row].GetComponent<AnimalTile>().isMatched)
         {
+            findMatches.currentMatches.Remove(allAnimals[column, row]);
+            GameObject explode = Instantiate(explosion, allAnimals[column, row].transform.position, Quaternion.identity);
+            Destroy(explode, 1f);
             Destroy(allAnimals[column, row]);
             allAnimals[column, row] = null;
         }

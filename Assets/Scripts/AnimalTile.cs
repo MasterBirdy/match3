@@ -23,9 +23,11 @@ public class AnimalTile : MonoBehaviour
     public float swipeResist = 0f;
     public string[] s;
     private bool mouseDown = false;
+    private FindMatches findMatches;
     // Start is called before the first frame update
     void Start()
     {
+        findMatches = FindObjectOfType<FindMatches>();
         swipeResist = 0.3f;
         board = FindObjectOfType<Board>();
         targetX = transform.position.x;
@@ -41,7 +43,7 @@ public class AnimalTile : MonoBehaviour
     void Update()
     {
         MoveTowardsTarget();
-        FindMatches();
+        //FindMatches();
         if (isMatched)
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
@@ -68,6 +70,7 @@ public class AnimalTile : MonoBehaviour
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .1f);
             else
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .15f);
+            findMatches.FindAllMatches();
         }
         else
         {
@@ -85,6 +88,7 @@ public class AnimalTile : MonoBehaviour
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .1f);
             else
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .15f);
+            findMatches.FindAllMatches();
         }
         else
         {
