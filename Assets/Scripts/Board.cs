@@ -79,17 +79,18 @@ public class Board : MonoBehaviour
 
     private void DestroyMatchesAt(int column, int row)
     {
-        if (allAnimals[column, row].GetComponent<AnimalTile>().isMatched)
+        AnimalTile testAnimal = allAnimals[column, row].GetComponent<AnimalTile>();
+        if (testAnimal.isMatched)
         {
             //how many elements are in the matched pieces list
-            if (findMatches.currentMatches.Count == 4 && currentAnimal != null)
+            if (findMatches.currentMatches.Count == 4 && currentAnimal != null && !(testAnimal.isColumnBomb || testAnimal.isRowBomb))
             {
                 findMatches.CheckBombs();
             }
             findMatches.currentMatches.Remove(allAnimals[column, row]);
             GameObject explode = Instantiate(explosion, allAnimals[column, row].transform.position, Quaternion.identity);
             Destroy(explode, 1f);
-            if (allAnimals[column, row].GetComponent<AnimalTile>().isMatched)
+            if (testAnimal.isMatched)
             {
                 Destroy(allAnimals[column, row]);
                 allAnimals[column, row] = null;
@@ -201,7 +202,7 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    public IEnumerator StartDestroyAll()
+    public IEnumerator StartDestroyAllCo()
     {
         yield return StartCoroutine(DestroyMatches());
         currentState = GameState.MOVE;
@@ -210,7 +211,7 @@ public class Board : MonoBehaviour
 
     public void StartDestroyAllNow()
     {
-        StartCoroutine(StartDestroyAll());
+        StartCoroutine(StartDestroyAllCo());
     } 
 
     // Update is called once per frame

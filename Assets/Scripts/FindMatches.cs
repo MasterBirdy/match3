@@ -43,28 +43,6 @@ public class FindMatches : MonoBehaviour
                                 AnimalTile leftAnimalTileComponent = leftAnimal.GetComponent<AnimalTile>();
                                 AnimalTile rightAnimalTileComponent = rightAnimal.GetComponent<AnimalTile>();
 
-                                if (currentAnimal.GetComponent<AnimalTile>().isRowBomb ||
-                                    leftAnimal.GetComponent<AnimalTile>().isRowBomb ||
-                                    rightAnimal.GetComponent<AnimalTile>().isRowBomb)
-                                {
-                                    currentMatches.Union(GetRowPieces(j));
-                                }
-
-                                if (currentAnimalTileComponent.isColumnBomb)
-                                {
-                                    currentMatches.Union(GetColumnPieces(i));
-                                }
-
-                                if (leftAnimalTileComponent.isColumnBomb)
-                                {
-                                    currentMatches.Union(GetColumnPieces(i - 1));
-                                }
-
-                                if (rightAnimalTileComponent.isColumnBomb)
-                                {
-                                    currentMatches.Union(GetColumnPieces(i - 1));
-                                }
-
                                 if (!currentMatches.Contains(leftAnimal))
                                 {
                                     currentMatches.Add(leftAnimal);
@@ -97,28 +75,6 @@ public class FindMatches : MonoBehaviour
                                 AnimalTile currentAnimalTileComponent = currentAnimal.GetComponent<AnimalTile>();
                                 AnimalTile upAnimalTileComponent = upAnimal.GetComponent<AnimalTile>();
                                 AnimalTile downAnimalTileComponent = downAnimal.GetComponent<AnimalTile>();
-
-                                if (currentAnimalTileComponent.isColumnBomb ||
-                                    upAnimalTileComponent.isColumnBomb ||
-                                    downAnimalTileComponent.isColumnBomb)
-                                {
-                                    currentMatches.Union(GetColumnPieces(i));
-                                }
-
-                                if (currentAnimalTileComponent.isRowBomb)
-                                {
-                                    currentMatches.Union(GetRowPieces(j));
-                                }
-
-                                if (upAnimalTileComponent.isRowBomb)
-                                {
-                                    currentMatches.Union(GetRowPieces(j + 1));
-                                }
-
-                                if (downAnimalTileComponent.isRowBomb)
-                                {
-                                    currentMatches.Union(GetRowPieces(j - 1));
-                                }
 
                                 if (!currentMatches.Contains(upAnimal))
                                 {
@@ -180,7 +136,7 @@ public class FindMatches : MonoBehaviour
         if (board.currentAnimal != null)
         {
             // is the piece they moved matched?
-            if (board.currentAnimal.isMatched)
+            if (board.currentAnimal.isMatched && !(board.currentAnimal.isColumnBomb || board.currentAnimal.isRowBomb))
             {
                 //make it unmatched
                 board.currentAnimal.isMatched = false;
@@ -216,5 +172,37 @@ public class FindMatches : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ActivateColumnBomb(int column)
+    {
+        StartCoroutine(ActivateColumnBombCo(column));
+    }
+
+    private IEnumerator ActivateColumnBombCo(int column)
+    {
+        for (int i = 0; i < board.height; i++)
+        {
+            GameObject testGameObject = board.allAnimals[column, i];
+            testGameObject.GetComponent<AnimalTile>().isMatched = true;
+            currentMatches.Add(testGameObject);
+        }
+        yield return null;
+    }
+    public void ActivateRowBomb(int row)
+    {
+        StartCoroutine(ActivateRowBombCo(row));
+    }
+
+    private IEnumerator ActivateRowBombCo(int row)
+    {
+        for (int i = 0; i < board.width; i++)
+        {
+            GameObject testGameObject = board.allAnimals[i, row];
+            AnimalTile testAnimalTile = testGameObject.GetComponent<AnimalTile>();
+            testAnimalTile.isMatched = true;
+            currentMatches.Add(testGameObject);
+        }
+        yield return null;
     }
 }

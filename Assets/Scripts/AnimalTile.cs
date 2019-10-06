@@ -52,6 +52,8 @@ public class AnimalTile : MonoBehaviour
 
     }
 
+    //debug features
+    /*
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(1))
@@ -61,6 +63,17 @@ public class AnimalTile : MonoBehaviour
             + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
         }
     }
+    */
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            isRowBomb = true;
+            GetComponent<SpriteRenderer>().sprite = rowBomb;
+            tag = "Bomb";
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -136,7 +149,17 @@ public class AnimalTile : MonoBehaviour
         yield return new WaitForSeconds(.25f);
         if (otherAnimal != null)
         {
-            if (!isMatched && !otherAnimal.GetComponent<AnimalTile>().isMatched)
+            if (isColumnBomb)
+            {
+                findMatches.ActivateColumnBomb(column);
+                board.StartDestroyAllNow();
+            }
+            else if (isRowBomb)
+            {
+                findMatches.ActivateRowBomb(row);
+                board.StartDestroyAllNow();
+            }
+            else if (!isMatched && !otherAnimal.GetComponent<AnimalTile>().isMatched)
             {
                 otherAnimal.GetComponent<AnimalTile>().row = row;
                 otherAnimal.GetComponent<AnimalTile>().column = column;
@@ -190,10 +213,10 @@ public class AnimalTile : MonoBehaviour
             board.currentAnimal = this;
             MovePieces();
         }
-        else
-        {
+       // else
+        //{
             // board.currentState = GameState.MOVE;
-        }
+        //}
     }
 
     void MovePieces()
@@ -280,12 +303,14 @@ public class AnimalTile : MonoBehaviour
     {
         isRowBomb = true;
         GetComponent<SpriteRenderer>().sprite = rowBomb;
+        tag = "Bomb";
     }
 
     public void MakeColumnBomb()
     {
         isColumnBomb = true;
         GetComponent<SpriteRenderer>().sprite = columnBomb;
+        tag = "Bomb";
     }
 
 
