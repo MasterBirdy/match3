@@ -173,4 +173,48 @@ public class FindMatches : MonoBehaviour
         }
         return animals;
     }
+
+    public void CheckBombs()
+    {
+        //Did the player move something?
+        if (board.currentAnimal != null)
+        {
+            // is the piece they moved matched?
+            if (board.currentAnimal.isMatched)
+            {
+                //make it unmatched
+                board.currentAnimal.isMatched = false;
+                //decide what kind of bomb to make
+                int typeOfBomb = Random.Range(0, 100);
+                if (typeOfBomb < 50)
+                {
+                    board.currentAnimal.MakeRowBomb();
+                }
+                else if (typeOfBomb >= 50)
+                {
+                    board.currentAnimal.MakeColumnBomb();
+                }
+            }
+            else if (board.currentAnimal.otherAnimal != null)
+            {
+                AnimalTile otherAnimal = board.currentAnimal.otherAnimal.GetComponent<AnimalTile>();
+                if (otherAnimal.isMatched)
+                {
+                    //make it unmatched
+                    otherAnimal.isMatched = false;
+                    //decide what kind of bomb to make
+                    int typeOfBomb = Random.Range(0, 100);
+                    if (typeOfBomb < 50)
+                    {
+                        otherAnimal.MakeRowBomb();
+                    }
+                    else if (typeOfBomb >= 50)
+                    {
+                        otherAnimal.MakeColumnBomb();
+                    }
+
+                }
+            }
+        }
+    }
 }

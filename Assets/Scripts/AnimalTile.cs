@@ -16,7 +16,7 @@ public class AnimalTile : MonoBehaviour
     public float previousTargetY;
     public bool isMatched = false;
     private Board board;
-    private GameObject otherAnimal;
+    public GameObject otherAnimal;
 
     [Header("Swipe Variables")]
     public float swipeAngle = 0;
@@ -56,8 +56,9 @@ public class AnimalTile : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            isRowBomb = true;
-            GetComponent<SpriteRenderer>().sprite = rowBomb;
+            Debug.Log(board.allAnimals[column, row].GetComponent<AnimalTile>().tag +
+            " " + board.allAnimals[column, row].GetComponent<AnimalTile>().column + " "
+            + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
         }
     }
 
@@ -65,24 +66,31 @@ public class AnimalTile : MonoBehaviour
     void Update()
     {
         MoveTowardsTarget();
-        //FindMatches();
         if (isMatched)
         {
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
-            StartCoroutine(FadeToBlack(mySprite));
+            FadeToBlack(mySprite);
         }
-    }
-
-    IEnumerator FadeToBlack(SpriteRenderer s)
-    {
-        for (float i = 1f; i >= 0; i -= Time.deltaTime * 1.4f)
+        if (isColumnBomb || isRowBomb)
         {
-            s.color = new Color(1, 1, 1, i);
-            yield return null;
+            SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
+            comeBack(mySprite);
         }
     }
 
-        private void MoveTowardsTarget()
+    void FadeToBlack(SpriteRenderer s)
+    {
+
+        s.color = new Color(1, 1, 1, .5f);
+
+    }
+
+    private void comeBack(SpriteRenderer s)
+    {
+        s.color = new Color(1f, 1f, 1f, 1f);
+    }
+
+    private void MoveTowardsTarget()
     {
         if (Mathf.Abs(targetX - transform.position.x) > .1)
         {
@@ -92,7 +100,7 @@ public class AnimalTile : MonoBehaviour
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .1f);
             else
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .15f);
-            findMatches.FindAllMatches();
+            //findMatches.FindAllMatches();
         }
         else
         {
@@ -100,6 +108,7 @@ public class AnimalTile : MonoBehaviour
             Vector2 tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = tempPosition;
             board.allAnimals[column, row] = this.gameObject;
+
         }
 
         if (Mathf.Abs(targetY - transform.position.y) > .1)
@@ -110,7 +119,7 @@ public class AnimalTile : MonoBehaviour
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .1f);
             else
                 transform.position = Vector2.Lerp(transform.position, tempPosition, .15f);
-            findMatches.FindAllMatches();
+            //findMatches.FindAllMatches();
         }
         else
         {
@@ -119,6 +128,7 @@ public class AnimalTile : MonoBehaviour
             transform.position = tempPosition;
             board.allAnimals[column, row] = this.gameObject;
         }
+        findMatches.FindAllMatches();
     }
 
     public IEnumerator CheckMoveCo()
@@ -139,6 +149,7 @@ public class AnimalTile : MonoBehaviour
                 targetY = previousTargetY;
                 board.allAnimals[column, row] = gameObject;
                 yield return new WaitForSeconds(.25f);
+                board.currentAnimal = null;
                 board.currentState = GameState.MOVE;
             }
            else
@@ -176,6 +187,7 @@ public class AnimalTile : MonoBehaviour
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y,
                 finalTouchPosition.x - firstTouchPosition.x) * 180 / Mathf.PI;
             board.currentState = GameState.WAIT;
+            board.currentAnimal = this;
             MovePieces();
         }
         else
@@ -195,6 +207,7 @@ public class AnimalTile : MonoBehaviour
 
             otherAnimal.GetComponent<AnimalTile>().column -= 1;
             previousColumn = column;
+            previousRow = row;
             column += 1;
 
             board.allAnimals[column, row] = gameObject;
@@ -208,6 +221,7 @@ public class AnimalTile : MonoBehaviour
             board.allAnimals[column, row] = otherAnimal;
 
             otherAnimal.GetComponent<AnimalTile>().row -= 1;
+            previousColumn = column;
             previousRow = row;
             row += 1;
 
@@ -222,6 +236,7 @@ public class AnimalTile : MonoBehaviour
 
             otherAnimal.GetComponent<AnimalTile>().column += 1;
             previousColumn = column;
+            previousRow = row;
             column -= 1;
 
             board.allAnimals[column, row] = gameObject;
@@ -237,12 +252,16 @@ public class AnimalTile : MonoBehaviour
             board.allAnimals[column, row] = otherAnimal;
 
             otherAnimal.GetComponent<AnimalTile>().row += 1;
+            previousColumn = column;
             previousRow = row;
             row -= 1;
 
             board.allAnimals[column, row] = gameObject;
             Switcharoo(otherAnimal.GetComponent<AnimalTile>());
         }
+        Debug.Log(column + " " + row + "  vs. " + board.allAnimals[column, row].GetComponent<AnimalTile>().tag +
+            " " + board.allAnimals[column, row].GetComponent<AnimalTile>().column + " " 
+            + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
         StartCoroutine(CheckMoveCo());
     }
 
@@ -257,43 +276,17 @@ public class AnimalTile : MonoBehaviour
         targetY = tempY;
     }
 
-    void FindMatches()
+    public void MakeRowBomb()
     {
-        if (column > 0 && column < board.width - 1)
-        {
-            if (board.allAnimals[column - 1, row] != null && board.allAnimals[column + 1, row] != null && board.allAnimals[column, row] != null)
-            {
-                GameObject leftAnimal1 = board.allAnimals[column - 1, row];
-                GameObject rightAnimal1 = board.allAnimals[column + 1, row];
-                if (leftAnimal1.tag == this.gameObject.tag &&
-                    rightAnimal1.tag == this.gameObject.tag &&
-                    leftAnimal1.tag == rightAnimal1.tag)
-                {
-                    leftAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                    rightAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                    isMatched = true;
-                }
-            }
-
-        }
-
-        if (row > 0 && row < board.height - 1)
-        {
-            if (board.allAnimals[column , row-1] != null && board.allAnimals[column, row] != null && board.allAnimals[column, row +1] != null)
-            {
-                GameObject downAnimal1 = board.allAnimals[column, row - 1];
-                GameObject upAnimal1 = board.allAnimals[column, row + 1];
-                if (upAnimal1.tag == this.gameObject.tag &&
-                    downAnimal1.tag == this.gameObject.tag &&
-                    upAnimal1.tag == downAnimal1.tag)
-                {
-                    upAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                    downAnimal1.GetComponent<AnimalTile>().isMatched = true;
-                    isMatched = true;
-                }
-            }
-        }
-
+        isRowBomb = true;
+        GetComponent<SpriteRenderer>().sprite = rowBomb;
     }
+
+    public void MakeColumnBomb()
+    {
+        isColumnBomb = true;
+        GetComponent<SpriteRenderer>().sprite = columnBomb;
+    }
+
 
 }

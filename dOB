@@ -1,0 +1,35 @@
+[33mcommit 0c227c11ef0d125bc195c57129cd9984c0e33b4f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Matthew Ito <mito81@gmail.com>
+Date:   Sat Oct 5 17:24:38 2019 -0700
+
+    added column bombs and row bombs
+
+[33mcommit 35570534d30fb6302b0436fdd3a0bfd870bd9b6b[m
+Author: Matthew Ito <mito81@gmail.com>
+Date:   Sat Oct 5 12:31:50 2019 -0700
+
+    added particle for destroy and optimized matching
+
+[33mcommit c97c22082ef1441291949e52b2bddb35c62807c3[m
+Author: Matthew Ito <mito81@gmail.com>
+Date:   Wed Oct 2 21:50:14 2019 -0700
+
+    fixed locking while board is moving
+
+[33mcommit 3f38e2d7b1d00746dc966389ef7e00383d0f46e9[m
+Author: Matthew Ito <mito81@gmail.com>
+Date:   Wed Oct 2 16:02:30 2019 -0700
+
+    rows automatically refill
+
+[33mcommit b7dad390120b9be7115bdd4fec7eb159b806256f[m
+Author: Matthew Ito <mito81@gmail.com>
+Date:   Wed Oct 2 14:08:22 2019 -0700
+
+    basic row refilling functionality works
+
+[33mcommit b933ccf1932f5794d252dd75dab91a7ae01bd74a[m
+Author: Matthew Ito <mito81@gmail.com>
+Date:   Wed Oct 2 09:13:40 2019 -0700
+
+    animal balls can switch around and switch back

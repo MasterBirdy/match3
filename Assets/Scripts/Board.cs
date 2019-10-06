@@ -17,6 +17,8 @@ public class Board : MonoBehaviour
     [SerializeField] public GameObject explosion;
     public GameObject[,] allAnimals;
     private FindMatches findMatches;
+    public AnimalTile currentAnimal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,17 +81,34 @@ public class Board : MonoBehaviour
     {
         if (allAnimals[column, row].GetComponent<AnimalTile>().isMatched)
         {
+            //how many elements are in the matched pieces list
+            if (findMatches.currentMatches.Count == 4 && currentAnimal != null)
+            {
+                findMatches.CheckBombs();
+            }
             findMatches.currentMatches.Remove(allAnimals[column, row]);
             GameObject explode = Instantiate(explosion, allAnimals[column, row].transform.position, Quaternion.identity);
             Destroy(explode, 1f);
-            Destroy(allAnimals[column, row]);
-            allAnimals[column, row] = null;
+            if (allAnimals[column, row].GetComponent<AnimalTile>().isMatched)
+            {
+                Destroy(allAnimals[column, row]);
+                allAnimals[column, row] = null;
+           }
         }
+    }
+
+    private IEnumerator FadeToBlack(SpriteRenderer s)
+    {
+            for (float i = 1f; i >= 0; i -= Time.deltaTime * 1.4f)
+            {
+                s.color = new Color(1, 1, 1, i);
+                yield return null;
+            }
     }
 
     public IEnumerator DestroyMatches()
     {
-
+        yield return new WaitForSeconds(.1f);
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
@@ -97,6 +116,7 @@ public class Board : MonoBehaviour
                 DestroyMatchesAt(j, i);
             }
         }
+        currentAnimal = null;
         yield return StartCoroutine(DecreaseRowCo());
     }
 
@@ -112,11 +132,12 @@ public class Board : MonoBehaviour
                     nullCount++;
                 else if(nullCount > 0)
                 {
-                    var tempAnimal = allAnimals[i, j].GetComponent<AnimalTile>();
+                    var tempAni = allAnimals[i, j];
+                    var tempAnimal = tempAni.GetComponent<AnimalTile>();
                     tempAnimal.row -= nullCount;
                     tempAnimal.targetY -= (padding + 1) * nullCount;
                     tempAnimal.previousTargetY = tempAnimal.targetY;
-                    allAnimals[i, j - nullCount] = allAnimals[i, j];
+                    allAnimals[i, j - nullCount] = tempAni;
                     allAnimals[i, j] = null;
                 }
             }
@@ -149,12 +170,15 @@ public class Board : MonoBehaviour
      //   currentState = GameState.WAIT;
         RefillBoard();
         yield return new WaitForSeconds(.20f);
+        //findMatches.FindAllMatches();
 
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(.20f);
+            yield return new WaitForSeconds(.15f);
             yield return StartCoroutine(DestroyMatches());
         }
+        findMatches.currentMatches.Clear();
+
        // yield return new WaitForSeconds(.1f);
 
     }
