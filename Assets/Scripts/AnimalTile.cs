@@ -17,13 +17,24 @@ public class AnimalTile : MonoBehaviour
     public bool isMatched = false;
     private Board board;
     private GameObject otherAnimal;
-    private Vector2 firstTouchPosition;
-    private Vector2 finalTouchPosition;
+
+    [Header("Swipe Variables")]
     public float swipeAngle = 0;
     public float swipeResist = 0f;
+    private Vector2 firstTouchPosition;
+    private Vector2 finalTouchPosition;
+
+
     public string[] s;
     private bool mouseDown = false;
     private FindMatches findMatches;
+
+    [Header("Powerups")]
+    public bool isColumnBomb;
+    public bool isRowBomb;
+    [SerializeField] public Sprite columnBomb;
+    [SerializeField] public Sprite rowBomb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +47,18 @@ public class AnimalTile : MonoBehaviour
         previousColumn = column;
         previousTargetX = targetX;
         previousTargetY = targetY;
+        isColumnBomb = false;
+        isRowBomb = false;
 
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            isRowBomb = true;
+            GetComponent<SpriteRenderer>().sprite = rowBomb;
+        }
     }
 
     // Update is called once per frame
