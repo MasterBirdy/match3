@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Cute_Font SDF
+  m_Name: Cute_Font SDF Button
   m_EditorClassIdentifier: 
-  hashCode: -1385849158
+  hashCode: 1094644236
   material: {fileID: 21946630599060616}
   materialHashCode: -961467663
   m_Version: 1.1.0
@@ -2504,7 +2504,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.15
+    - _OutlineWidth: 0.17
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333
@@ -2522,9 +2522,9 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 512
     - _TextureWidth: 512
-    - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0
-    - _UnderlayOffsetY: 0
+    - _UnderlayDilate: 0.15
+    - _UnderlayOffsetX: 0.15
+    - _UnderlayOffsetY: -0.45
     - _UnderlaySoftness: 0
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0

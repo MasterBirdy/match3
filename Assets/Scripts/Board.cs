@@ -132,7 +132,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        dataTracker.updateScore(scoreUpdate);
+        dataTracker.UpdateScore(scoreUpdate);
         currentAnimal = null;
         yield return StartCoroutine(DecreaseRowCo());
     }

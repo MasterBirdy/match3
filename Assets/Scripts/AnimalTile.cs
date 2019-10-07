@@ -63,7 +63,7 @@ public class AnimalTile : MonoBehaviour
             + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
         }
     }
-    */
+   
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(1))
@@ -73,7 +73,7 @@ public class AnimalTile : MonoBehaviour
             tag = "Bomb";
         }
     }
-
+     */
 
     // Update is called once per frame
     void Update()

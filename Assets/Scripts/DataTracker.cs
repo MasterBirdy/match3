@@ -28,14 +28,15 @@ public class DataTracker : MonoBehaviour
         time = 60;
     }
 
-    public void updateScore(int number)
+    public void UpdateScore(int number)
     {
         currentScore += number;
         scoreText.text = "Score: " + currentScore;
     }
 
-    private void updateTime()
+    public void ExtendTime(int number)
     {
-
+        time += number;
     }
+
 }
