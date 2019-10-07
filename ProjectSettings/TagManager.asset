@@ -9,6 +9,7 @@ TagManager:
   - Panda
   - Parrot
   - Penguin
+  - Bomb
   layers:
   - Default
   - TransparentFX

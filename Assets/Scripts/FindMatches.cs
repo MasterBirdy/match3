@@ -8,6 +8,7 @@ public class FindMatches : MonoBehaviour
 
     private Board board;
     public List<GameObject> currentMatches = new List<GameObject>();
+    public List<AnimalTile> formedBombs = new List<AnimalTile>();
 
     // Start is called before the first frame update
     void Start()
@@ -130,7 +131,7 @@ public class FindMatches : MonoBehaviour
         return animals;
     }
 
-    public void CheckBombs()
+    public bool CheckBombs()
     {
         //Did the player move something?
         if (board.currentAnimal != null)
@@ -150,6 +151,7 @@ public class FindMatches : MonoBehaviour
                 {
                     board.currentAnimal.MakeColumnBomb();
                 }
+                return true;
             }
             else if (board.currentAnimal.otherAnimal != null)
             {
@@ -168,10 +170,11 @@ public class FindMatches : MonoBehaviour
                     {
                         otherAnimal.MakeColumnBomb();
                     }
-
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void ActivateColumnBomb(int column)

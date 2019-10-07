@@ -15,14 +15,18 @@ public class Board : MonoBehaviour
     public float padding = .1f;
     [SerializeField] private GameObject[] animalChoices;
     [SerializeField] public GameObject explosion;
+    public DataTracker dataTracker;
     public GameObject[,] allAnimals;
     private FindMatches findMatches;
+    private PowerBar powerBar;
     public AnimalTile currentAnimal;
 
     // Start is called before the first frame update
     void Start()
     {
         findMatches = FindObjectOfType<FindMatches>();
+        dataTracker = FindObjectOfType<DataTracker>();
+        powerBar = FindObjectOfType<PowerBar>();
         allAnimals = new GameObject[width, height];
         for (int j = 0; j < height; j++)
         {
@@ -77,7 +81,7 @@ public class Board : MonoBehaviour
 
 
 
-    private void DestroyMatchesAt(int column, int row)
+    private bool DestroyMatchesAt(int column, int row)
     {
         AnimalTile testAnimal = allAnimals[column, row].GetComponent<AnimalTile>();
         if (testAnimal.isMatched)
@@ -85,7 +89,8 @@ public class Board : MonoBehaviour
             //how many elements are in the matched pieces list
             if (findMatches.currentMatches.Count == 4 && currentAnimal != null && !(testAnimal.isColumnBomb || testAnimal.isRowBomb))
             {
-                findMatches.CheckBombs();
+                if (findMatches.CheckBombs())
+                    findMatches.formedBombs.Add(currentAnimal);
             }
             findMatches.currentMatches.Remove(allAnimals[column, row]);
             GameObject explode = Instantiate(explosion, allAnimals[column, row].transform.position, Quaternion.identity);
@@ -94,8 +99,13 @@ public class Board : MonoBehaviour
             {
                 Destroy(allAnimals[column, row]);
                 allAnimals[column, row] = null;
-           }
+            }
+            return true;
         }
+        else if (findMatches.formedBombs.Contains(testAnimal))
+            return true;
+        else
+            return false;
     }
 
     private IEnumerator FadeToBlack(SpriteRenderer s)
@@ -110,13 +120,19 @@ public class Board : MonoBehaviour
     public IEnumerator DestroyMatches()
     {
         yield return new WaitForSeconds(.1f);
+        int scoreUpdate = 0;
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
-                DestroyMatchesAt(j, i);
+                if (DestroyMatchesAt(j, i))
+                {
+                    scoreUpdate += 100;
+                    powerBar.IncreasePowerLevel(1.5f);
+                }
             }
         }
+        dataTracker.updateScore(scoreUpdate);
         currentAnimal = null;
         yield return StartCoroutine(DecreaseRowCo());
     }
@@ -178,6 +194,7 @@ public class Board : MonoBehaviour
             yield return new WaitForSeconds(.15f);
             yield return StartCoroutine(DestroyMatches());
         }
+        findMatches.formedBombs.Clear();
         findMatches.currentMatches.Clear();
 
        // yield return new WaitForSeconds(.1f);
