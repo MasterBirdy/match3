@@ -9,7 +9,7 @@ public enum GameState
 }
 public class Board : MonoBehaviour
 {
-    public GameState currentState = GameState.MOVE;
+    public GameState currentState;
     public int height = 7;
     public int width = 7;
     public float padding = .1f;
@@ -28,6 +28,7 @@ public class Board : MonoBehaviour
         dataTracker = FindObjectOfType<DataTracker>();
         powerBar = FindObjectOfType<PowerBar>();
         allAnimals = new GameObject[width, height];
+        currentState = GameState.WAIT;
         for (int j = 0; j < height; j++)
         {
             float y = j;
@@ -119,7 +120,7 @@ public class Board : MonoBehaviour
 
     public IEnumerator DestroyMatches()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.20f);
         int scoreUpdate = 0;
         for (int i = 0; i < height; i++)
         {
@@ -184,20 +185,19 @@ public class Board : MonoBehaviour
 
     private IEnumerator FillBoardCo()
     {
-     //   currentState = GameState.WAIT;
+        //   currentState = GameState.WAIT;
+
         RefillBoard();
-        yield return new WaitForSeconds(.20f);
+        yield return new WaitForSeconds(.15f);
         //findMatches.FindAllMatches();
 
         while (MatchesOnBoard())
         {
-            yield return new WaitForSeconds(.15f);
+           
             yield return StartCoroutine(DestroyMatches());
         }
         findMatches.formedBombs.Clear();
         findMatches.currentMatches.Clear();
-
-       // yield return new WaitForSeconds(.1f);
 
     }
 
@@ -231,9 +231,15 @@ public class Board : MonoBehaviour
         StartCoroutine(StartDestroyAllCo());
     } 
 
-    // Update is called once per frame
-    void Update()
+    public void StartBoard()
     {
-        
+        currentState = GameState.MOVE;
     }
+
+    public void StopBoard()
+    {
+        currentState = GameState.WAIT;
+    }
+
+
 }
