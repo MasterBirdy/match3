@@ -26,7 +26,6 @@ public class PowerBar : MonoBehaviour
         dataTracker = FindObjectOfType<DataTracker>();
         cam = FindObjectOfType<Camera>();
         healthBar.fillAmount = .01f;
-     //   Instantiate(animalRole, transform.position, Quaternion.identity);
         classOfAnimal = classesOfAnimals[0].GetComponent<AnimalClass>();
         icon.sprite = classOfAnimal.ReturnSprite();
     }
@@ -37,8 +36,6 @@ public class PowerBar : MonoBehaviour
         HandleBar();
         if (Input.GetMouseButtonDown(1) && healthBar.fillAmount == 1f)
             Activate();
-
-
     }
 
     public void IncreasePowerLevel(float i)
@@ -68,6 +65,4 @@ public class PowerBar : MonoBehaviour
         powerLevel = .01f;
         healthBar.fillAmount = .01f;
     }
-
- 
 }
