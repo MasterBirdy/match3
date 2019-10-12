@@ -1436,7 +1436,8 @@ MonoBehaviour:
   text: {fileID: 440296089}
   icon: {fileID: 1093854811}
   classesOfAnimals:
-  - {fileID: 8352227437781001142, guid: 59c43c60bfcedcc41aa7e07cb9a141b2, type: 3}
+  - {fileID: 7953984853770036894, guid: 4bb0448aeb24c5848b2cb408e68be2a8, type: 3}
+  - {fileID: 7953984853770036894, guid: 90cd0146146a79b4ea743d8e5bd8a32b, type: 3}
 --- !u!1 &1796353006
 GameObject:
   m_ObjectHideFlags: 0

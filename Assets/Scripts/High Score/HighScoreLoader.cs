@@ -25,11 +25,23 @@ public class HighScoreLoader : MonoBehaviour
                 tempVar.position = new Vector3(tempVar.position.x, tempVar.position.y + (padding * i), tempVar.position.z);
                 tempVar.Find("Position Text").GetComponent<TextMeshProUGUI>().text = i + 1 + ".";
                 tempVar.Find("Score Text").GetComponent<TextMeshProUGUI>().text = highScore.highScores[i] + "";
-                tempVar.Find("Role Text").GetComponent<TextMeshProUGUI>().text = highScore.animalClass[i] + "";
+                TextMeshProUGUI roleText = tempVar.Find("Role Text").GetComponent<TextMeshProUGUI>();
+                ColorPicker(roleText, highScore.animalClass[i]);
+                roleText.text = highScore.animalClass[i] + "";
                 tempVar.gameObject.SetActive(true);
             }
         }
     }
 
-
+    private void ColorPicker(TextMeshProUGUI g, string s)
+    {
+        if (s.Equals("Snake"))
+        {
+            g.color = new Color32(135, 255, 28, 255);
+        }
+        else if (s.Equals("Penguin"))
+        {
+            g.color = new Color32(200, 200, 200, 255);
+        }
+    }
 }

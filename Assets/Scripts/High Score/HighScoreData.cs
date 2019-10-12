@@ -7,6 +7,7 @@ public class HighScoreData
 {
     public int[] highScores;
     public string[] animalClass;
+    public int currentScore;
 
     public HighScoreData (int score, string animal)
     {
@@ -14,10 +15,12 @@ public class HighScoreData
         animalClass = new string[5];
         highScores[0] = score;
         animalClass[0] = animal;
+        currentScore = score;
     }
 
     public bool AddData(int score, string animal)
     {
+        currentScore = score;
         int tempScore = 0;
         string tempAnimal = "";
         bool hasBeenAdded = false;

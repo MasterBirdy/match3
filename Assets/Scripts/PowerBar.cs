@@ -65,4 +65,9 @@ public class PowerBar : MonoBehaviour
         powerLevel = .01f;
         healthBar.fillAmount = .01f;
     }
+
+    public string ReturnAnimalName()
+    {
+        return classOfAnimal.ReturnName();
+    }
 }

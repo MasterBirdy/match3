@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7953984853770036865}
   - component: {fileID: 4929290233830997370}
   - component: {fileID: 3463128432041748407}
+  - component: {fileID: 903933600355047074}
   m_Layer: 0
   m_Name: Snake Tile
   m_TagString: Snake
@@ -126,3 +127,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.50352114
+--- !u!114 &903933600355047074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953984853770036894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2525af1abd1de854bbd901953d7ccca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findMatchesObject: {fileID: 0}
+  dataTrackerObject: {fileID: 0}
+  boardObject: {fileID: 0}
+  sprite: {fileID: 21300000, guid: dd5ab1d8ae437974896787889e0de40c, type: 3}

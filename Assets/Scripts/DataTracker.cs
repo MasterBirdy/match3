@@ -25,6 +25,7 @@ public class DataTracker : MonoBehaviour
     private SessionState sessionState;
     private SceneLoader sceneLoader;
     private AudioSource audioSource;
+    private PowerBar powerBar;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +33,7 @@ public class DataTracker : MonoBehaviour
         board = FindObjectOfType<Board>();
         sceneLoader = FindObjectOfType<SceneLoader>();
         audioSource = GetComponent<AudioSource>();
+        powerBar = FindObjectOfType<PowerBar>();
         sessionState = SessionState.NOTSTARTED;
         countdownTimer = 3f;
         startCountdown = countdownTimer;
@@ -49,7 +51,7 @@ public class DataTracker : MonoBehaviour
     public void NewGame()
     {
         currentScore = 0;
-        time = 60;
+        time = 10;
     }
 
     public void UpdateScore(int number)
@@ -92,7 +94,7 @@ public class DataTracker : MonoBehaviour
             {
                 sessionState = SessionState.FINISHED;
                 timesUpText.enabled = true;
-                StartCoroutine(endGame());
+                StartCoroutine(EndGame());
             }
         }
     }
@@ -107,13 +109,13 @@ public class DataTracker : MonoBehaviour
         return sessionState;
     }
 
-    private IEnumerator endGame()
+    private IEnumerator EndGame()
     {
         HighScoreData highScoreData = SaveSystem.LoadHighScore();
         if (highScoreData == null)
-            highScoreData = new HighScoreData(currentScore, "Snake");
+            highScoreData = new HighScoreData(currentScore, powerBar.ReturnAnimalName());
         else
-            highScoreData.AddData(currentScore, "Snake");
+            highScoreData.AddData(currentScore, powerBar.ReturnAnimalName());
         SaveSystem.SaveHighScore(highScoreData);
         yield return new WaitForSeconds(2f);
         sceneLoader.LoadHighScoreScene();

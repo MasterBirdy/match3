@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7953984853770036865}
   - component: {fileID: 4929290233830997370}
   - component: {fileID: 3463128432041748407}
+  - component: {fileID: 6960159921585048287}
   m_Layer: 0
   m_Name: Penguin Tile
   m_TagString: Penguin
@@ -102,6 +103,7 @@ MonoBehaviour:
   previousTargetX: 0
   previousTargetY: 0
   isMatched: 0
+  otherAnimal: {fileID: 0}
   swipeAngle: 0
   swipeResist: 0
   s: []
@@ -125,3 +127,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.50352114
+--- !u!114 &6960159921585048287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953984853770036894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a309691be8a3048af1a2b5d3d0af7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findMatchesObject: {fileID: 0}
+  dataTrackerObject: {fileID: 0}
+  boardObject: {fileID: 0}
+  sprite: {fileID: 21300000, guid: d71cb6bc920c0074ba9b5ac27a4814b6, type: 3}
