@@ -35,6 +35,8 @@ public class AnimalTile : MonoBehaviour
     public bool isRowBomb;
     [SerializeField] public Sprite columnBomb;
     [SerializeField] public Sprite rowBomb;
+    [SerializeField] public GameObject columnBombEffect;
+    [SerializeField] public GameObject rowBombEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -177,7 +179,7 @@ public class AnimalTile : MonoBehaviour
                 board.currentAnimal = null;
                 board.currentState = GameState.MOVE;
             }
-           else
+            else
             {
                 board.StartDestroyAllNow();
             }
@@ -281,12 +283,13 @@ public class AnimalTile : MonoBehaviour
             Switcharoo(otherAnimal.GetComponent<AnimalTile>());
         }
         Debug.Log(column + " " + row + "  vs. " + board.allAnimals[column, row].GetComponent<AnimalTile>().tag +
-            " " + board.allAnimals[column, row].GetComponent<AnimalTile>().column + " " 
+            " " + board.allAnimals[column, row].GetComponent<AnimalTile>().column + " "
             + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
         StartCoroutine(CheckMoveCo());
     }
 
-    public void Switcharoo(AnimalTile a) {
+    public void Switcharoo(AnimalTile a)
+    {
         previousTargetX = targetX;
         previousTargetY = targetY;
         float tempX = a.targetX;
@@ -301,6 +304,8 @@ public class AnimalTile : MonoBehaviour
     {
         isRowBomb = true;
         GetComponent<SpriteRenderer>().sprite = rowBomb;
+        GameObject o = Instantiate(rowBombEffect, transform.position, Quaternion.identity);
+        o.transform.parent = transform;
         tag = "Bomb";
     }
 
@@ -308,6 +313,8 @@ public class AnimalTile : MonoBehaviour
     {
         isColumnBomb = true;
         GetComponent<SpriteRenderer>().sprite = columnBomb;
+        GameObject o = Instantiate(columnBombEffect, transform.position, Quaternion.identity);
+        o.transform.parent = transform;
         tag = "Bomb";
     }
 

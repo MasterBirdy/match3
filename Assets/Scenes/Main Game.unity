@@ -1438,6 +1438,7 @@ MonoBehaviour:
   classesOfAnimals:
   - {fileID: 7953984853770036894, guid: 4bb0448aeb24c5848b2cb408e68be2a8, type: 3}
   - {fileID: 7953984853770036894, guid: 90cd0146146a79b4ea743d8e5bd8a32b, type: 3}
+  - {fileID: 7953984853770036894, guid: 8033817071cd4c14cbde03a023780270, type: 3}
 --- !u!1 &1796353006
 GameObject:
   m_ObjectHideFlags: 0

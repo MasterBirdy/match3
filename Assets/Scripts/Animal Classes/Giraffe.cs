@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake : MonoBehaviour, AnimalClass
+public class Giraffe : MonoBehaviour, AnimalClass
 {
-    [SerializeField] GameObject findMatchesObject;
-    [SerializeField] GameObject dataTrackerObject;
-    [SerializeField] GameObject boardObject;
     FindMatches findMatches;
     DataTracker dataTracker;
     Board board;
     [SerializeField] Sprite sprite;
-    void Start()
-    {
 
-    }
     public void ActivatePower()
     {
         if (board == null)
@@ -22,9 +16,9 @@ public class Snake : MonoBehaviour, AnimalClass
         if (findMatches == null)
             findMatches = FindObjectOfType<FindMatches>();
         int j = Random.Range(0, 8);
-        for (int i = 0; i < board.width; i++)
+        for (int i = 0; i < board.height; i++)
         {
-            GameObject testGameObject = board.allAnimals[i, j];
+            GameObject testGameObject = board.allAnimals[j, i];
             testGameObject.GetComponent<AnimalTile>().isMatched = true;
             findMatches.currentMatches.Add(testGameObject);
         }
@@ -36,18 +30,14 @@ public class Snake : MonoBehaviour, AnimalClass
         return true;
     }
 
+    public string ReturnName()
+    {
+        return "Giraffe";
+    }
+
     public Sprite ReturnSprite()
     {
         return sprite;
     }
-
-    // Update is called once per frame
-
-    public string ReturnName()
-    {
-        return "Snake";
-    }
-
-
 
 }

@@ -43,5 +43,17 @@ public class HighScoreLoader : MonoBehaviour
         {
             g.color = new Color32(200, 200, 200, 255);
         }
+        else if (s.Equals("Giraffe"))
+        {
+            g.color = new Color32(251, 255, 0, 255);
+        }
+        else if (s.Equals("Panda"))
+        {
+            g.color = new Color32(32, 32, 32, 255);
+        }
+        else if (s.Equals("Monkey"))
+        {
+            g.color = new Color32(169, 92, 50, 255);
+        }
     }
 }

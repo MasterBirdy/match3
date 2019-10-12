@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7953984853770036865}
   - component: {fileID: 4929290233830997370}
   - component: {fileID: 3463128432041748407}
+  - component: {fileID: 738222621270063437}
   m_Layer: 0
   m_Name: Giraffe Tile
   m_TagString: Giraffe
@@ -102,6 +103,7 @@ MonoBehaviour:
   previousTargetX: 0
   previousTargetY: 0
   isMatched: 0
+  otherAnimal: {fileID: 0}
   swipeAngle: 0
   swipeResist: 0
   s: []
@@ -109,6 +111,10 @@ MonoBehaviour:
   isRowBomb: 0
   columnBomb: {fileID: 21300000, guid: fb14e8a72e0d2fa49b4ffbbb1f257150, type: 3}
   rowBomb: {fileID: 21300000, guid: 81f21a39a55ee97439343007d3e1af95, type: 3}
+  columnBombEffect: {fileID: 1071087710808562643, guid: 94322061835144e4e99e8ed5df41c838,
+    type: 3}
+  rowBombEffect: {fileID: 1071087710808562643, guid: 95504d54d338f2b409d3ecea15852080,
+    type: 3}
 --- !u!58 &3463128432041748407
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -125,3 +131,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.50352114
+--- !u!114 &738222621270063437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953984853770036894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d48ee0b45abfa4b89ebdd69430f6b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: e55f2eb77d8368b4a9286717887fd849, type: 3}
