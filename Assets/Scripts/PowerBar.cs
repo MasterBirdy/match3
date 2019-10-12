@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PowerBar : MonoBehaviour
 {
-    float powerLevel = .01f;
+    float powerLevel;
     private float lerpSpeed = 2.5f;
     Transform bar;
     [SerializeField] public Image healthBar;
@@ -14,18 +15,22 @@ public class PowerBar : MonoBehaviour
     [SerializeField] public GameObject text;
     [SerializeField] public Image icon;
     [SerializeField] public GameObject[] classesOfAnimals;
+    private byte red;
     private AnimalClass classOfAnimal;
 
 
     private Camera cam;
     private DataTracker dataTracker;
+    private bool isUp;
+    private bool powerReady = false;
 
     // Start is called before the first frame update
     void Start()
     {
         dataTracker = FindObjectOfType<DataTracker>();
         cam = FindObjectOfType<Camera>();
-        healthBar.fillAmount = .01f;
+        powerLevel =  80f;
+        healthBar.fillAmount = .80f;
         classOfAnimal = classesOfAnimals[0].GetComponent<AnimalClass>();
         icon.sprite = classOfAnimal.ReturnSprite();
     }
@@ -33,9 +38,48 @@ public class PowerBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleBar();
+        //HandleBar();
+
+        if (powerLevel != healthBar.fillAmount)
+        {
+            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, powerLevel * .01f, Time.deltaTime * lerpSpeed);
+        }
+        if (healthBar.fillAmount == 1f)
+        {
+            if (!powerReady)
+            {
+                red = 255;
+                isUp = false;
+                powerReady = true;
+            } 
+            if (isUp)
+            {
+                float tempRed = red + Time.deltaTime * 300f;
+                red = Convert.ToByte(Mathf.RoundToInt(Mathf.Min(tempRed, 255)));
+                healthBar.color = new Color32(255, red, red, 255);
+                if (red == 255)
+                {
+                    isUp = false;
+                }
+            }
+            else
+            {
+                float tempRed = red - Time.deltaTime * 300f;
+                red = Convert.ToByte(Mathf.RoundToInt(Mathf.Max(tempRed, 0)));
+                healthBar.color = new Color32(255, red, red, 255);
+                if (red == 0)
+                {
+                    isUp = true;
+                }
+            }
+        }
+
         if (Input.GetMouseButtonDown(1) && healthBar.fillAmount == 1f)
+        {
             Activate();
+            healthBar.color = new Color32(255, 255, 255, 255);
+        }
+
     }
 
     public void IncreasePowerLevel(float i)
@@ -48,6 +92,31 @@ public class PowerBar : MonoBehaviour
         if (powerLevel != healthBar.fillAmount)
         {
             healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, powerLevel * .01f, Time.deltaTime * lerpSpeed);
+        }
+        if (healthBar.fillAmount == 1f)
+        {
+            Debug.Log(healthBar.color.r);
+            Debug.Log(Time.deltaTime);
+            if (isUp)
+            {
+                float tempRed = healthBar.color.r + Time.deltaTime * 200f;
+                int red = Mathf.RoundToInt(Mathf.Clamp(tempRed, 0, 255));
+                healthBar.color = new Color32(Convert.ToByte(red), 255, 255, 255);
+                if (healthBar.color.r == 255)
+                {
+                    isUp = false;
+                }
+            }
+            else
+            {
+                float tempRed = healthBar.color.r - Time.deltaTime * 200f;
+                int red = Mathf.RoundToInt(Mathf.Clamp(tempRed, 0, 255));
+                healthBar.color = new Color32(Convert.ToByte(red), 255, 255, 255);
+                if (healthBar.color.r == 0)
+                {
+                    isUp = true;
+                }
+            }
         }
     }
 

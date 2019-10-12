@@ -51,7 +51,7 @@ public class DataTracker : MonoBehaviour
     public void NewGame()
     {
         currentScore = 0;
-        time = 10;
+        time = 60;
     }
 
     public void UpdateScore(int number)
