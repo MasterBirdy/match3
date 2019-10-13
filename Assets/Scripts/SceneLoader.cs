@@ -31,4 +31,9 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("High Score Scene");
     }
 
+    public void LoadCharacterScene()
+    {
+        SceneManager.LoadScene("Character Scene");
+    }
+
 }
