@@ -31,7 +31,7 @@ public class PowerBar : MonoBehaviour
         cam = FindObjectOfType<Camera>();
         powerLevel =  80f;
         healthBar.fillAmount = .80f;
-        classOfAnimal = classesOfAnimals[2].GetComponent<AnimalClass>();
+        classOfAnimal = classesOfAnimals[4].GetComponent<AnimalClass>();
         icon.sprite = classOfAnimal.ReturnSprite();
     }
 

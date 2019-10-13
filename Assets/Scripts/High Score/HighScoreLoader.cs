@@ -49,7 +49,7 @@ public class HighScoreLoader : MonoBehaviour
         }
         else if (s.Equals("Panda"))
         {
-            g.color = new Color32(32, 32, 32, 255);
+            g.color = new Color32(80, 80, 80, 255);
         }
         else if (s.Equals("Monkey"))
         {

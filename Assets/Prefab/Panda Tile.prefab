@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7953984853770036865}
   - component: {fileID: 4929290233830997370}
   - component: {fileID: 3463128432041748407}
+  - component: {fileID: 9088867705425803203}
   m_Layer: 0
   m_Name: Panda Tile
   m_TagString: Panda
@@ -125,8 +126,21 @@ CircleCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.50352114
+--- !u!114 &9088867705425803203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7953984853770036894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d556b28ef55c59f48ba8f104ecf0842a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: d6d6a59d5b6a1dc429b62ab66f7aef86, type: 3}
