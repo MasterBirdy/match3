@@ -15,6 +15,8 @@ public class PowerBar : MonoBehaviour
     [SerializeField] public GameObject text;
     [SerializeField] public Image icon;
     [SerializeField] public GameObject[] classesOfAnimals;
+    [SerializeField] public GameObject alertIcon;
+    private GameObject currentAlert;
     private byte red;
     private AnimalClass classOfAnimal;
 
@@ -33,18 +35,22 @@ public class PowerBar : MonoBehaviour
         dataTracker = FindObjectOfType<DataTracker>();
         cam = FindObjectOfType<Camera>();
         board = FindObjectOfType<Board>();
-        powerLevel =  01f;
-        healthBar.fillAmount = .01f;
+        powerLevel =  80f;
+        healthBar.fillAmount = .80f;
         characterData = SaveSystem.LoadCharacterData();
         classOfAnimal = classesOfAnimals[characterData.currentCharacter].GetComponent<AnimalClass>();
         icon.sprite = classOfAnimal.ReturnSprite();
         isLeft = true;
+        Vector3 tempVector = Camera.main.ScreenToWorldPoint(icon.transform.position);
+        tempVector = new Vector3(tempVector.x, tempVector.y + 1.03f, 0);
+        currentAlert = Instantiate(alertIcon, tempVector, Quaternion.identity);
+        currentAlert.GetComponent<ParticleSystem>().Pause();
+        currentAlert.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //HandleBar();
 
         if (powerLevel != healthBar.fillAmount)
         {
@@ -57,6 +63,7 @@ public class PowerBar : MonoBehaviour
                 red = 255;
                 isUp = false;
                 powerReady = true;
+                currentAlert.SetActive(true);
             } 
             if (isUp)
             {
@@ -98,15 +105,10 @@ public class PowerBar : MonoBehaviour
              else
              {
                 Quaternion quar = Quaternion.Euler(0, 0, -6.2f);
-                icon.transform.localRotation = Quaternion.Lerp(icon.transform.localRotation, quar, Time.deltaTime * 1.2f);
+                icon.transform.localRotation = Quaternion.Lerp(icon.gameObject.transform.localRotation, quar, Time.deltaTime * 1.2f);
                 if (icon.transform.localRotation.z < -.05f)
                     isLeft = true;
             }
-           // icon.transform.rotation = Quaternion.Euler(0, 0, -90);
-           // Debug.Log(icon.transform.rotation.z);
-           // Debug.Log(icon.transform.eulerAngles.z);
-
-
         }
 
     }
@@ -114,39 +116,6 @@ public class PowerBar : MonoBehaviour
     public void IncreasePowerLevel(float i)
     {
         powerLevel += Mathf.Clamp(i, .01f, 100);
-    }
-
-    private void HandleBar()
-    {
-        if (powerLevel != healthBar.fillAmount)
-        {
-            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, powerLevel * .01f, Time.deltaTime * lerpSpeed);
-        }
-        if (healthBar.fillAmount == 1f)
-        {
-            Debug.Log(healthBar.color.r);
-            Debug.Log(Time.deltaTime);
-            if (isUp)
-            {
-                float tempRed = healthBar.color.r + Time.deltaTime * 200f;
-                int red = Mathf.RoundToInt(Mathf.Clamp(tempRed, 0, 255));
-                healthBar.color = new Color32(Convert.ToByte(red), 255, 255, 255);
-                if (healthBar.color.r == 255)
-                {
-                    isUp = false;
-                }
-            }
-            else
-            {
-                float tempRed = healthBar.color.r - Time.deltaTime * 200f;
-                int red = Mathf.RoundToInt(Mathf.Clamp(tempRed, 0, 255));
-                healthBar.color = new Color32(Convert.ToByte(red), 255, 255, 255);
-                if (healthBar.color.r == 0)
-                {
-                    isUp = true;
-                }
-            }
-        }
     }
 
     private void Activate()
@@ -161,8 +130,10 @@ public class PowerBar : MonoBehaviour
             GameObject explode = Instantiate(explosion, tempVector, Quaternion.identity);
             Destroy(explode, 2f);
         }
+        currentAlert.SetActive(false);
         powerLevel = .01f;
         healthBar.fillAmount = .01f;
+        powerReady = false;
     }
 
     public string ReturnAnimalName()
