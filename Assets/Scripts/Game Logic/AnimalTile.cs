@@ -155,11 +155,13 @@ public class AnimalTile : MonoBehaviour
         {
             if (isColumnBomb)
             {
+                board.activatedColumnBomb = true;
                 findMatches.ActivateColumnBomb(column);
                 board.StartDestroyAllNow();
             }
             else if (isRowBomb)
             {
+                board.activatedRowBomb = true;
                 findMatches.ActivateRowBomb(row);
                 board.StartDestroyAllNow();
             }

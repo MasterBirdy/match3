@@ -16,11 +16,16 @@ public class Board : MonoBehaviour
     public float padding = .1f;
     [SerializeField] private GameObject[] animalChoices;
     [SerializeField] public GameObject explosion;
+    [SerializeField] private AudioClip[] beeps;
+    private AudioSource audioSource;
     public DataTracker dataTracker;
     public GameObject[,] allAnimals;
     private FindMatches findMatches;
     private PowerBar powerBar;
     public AnimalTile currentAnimal;
+    public bool activatedColumnBomb;
+    public bool activatedRowBomb;
+    public bool activatedPower;
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +33,12 @@ public class Board : MonoBehaviour
         findMatches = FindObjectOfType<FindMatches>();
         dataTracker = FindObjectOfType<DataTracker>();
         powerBar = FindObjectOfType<PowerBar>();
+        audioSource = GetComponent<AudioSource>();
         allAnimals = new GameObject[width, height];
         currentState = GameState.WAIT;
+        activatedColumnBomb = false;
+        activatedRowBomb = false;
+        activatedPower = false;
         for (int j = 0; j < height; j++)
         {
             float y = j;
@@ -134,6 +143,17 @@ public class Board : MonoBehaviour
                 }
             }
         }
+        if (activatedColumnBomb)
+            audioSource.PlayOneShot(beeps[6]);
+        else if (activatedRowBomb)
+            audioSource.PlayOneShot(beeps[7]);
+        else if (activatedPower)
+            audioSource.PlayOneShot(beeps[8]);
+        else
+            audioSource.PlayOneShot(beeps[Random.Range(0, 6)]);
+        activatedColumnBomb = false;
+        activatedRowBomb = false;
+        activatedPower = false;
         dataTracker.UpdateScore(scoreUpdate);
         currentAnimal = null;
         yield return StartCoroutine(DecreaseRowCo());

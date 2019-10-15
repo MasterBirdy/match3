@@ -99,11 +99,6 @@ public class DataTracker : MonoBehaviour
         }
     }
 
-    public bool IsGameGoing()
-    {
-        return isGameGoing;
-    }
-
     public SessionState GetSessionState()
     {
         return sessionState;
@@ -119,5 +114,15 @@ public class DataTracker : MonoBehaviour
         SaveSystem.SaveHighScore(highScoreData);
         yield return new WaitForSeconds(2f);
         sceneLoader.LoadHighScoreScene();
+    }
+
+    public void PauseMusic()
+    {
+        audioSource.Pause();
+    }
+
+    public void UnpauseMusic()
+    {
+        audioSource.Play();
     }
 }

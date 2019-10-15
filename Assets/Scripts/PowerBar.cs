@@ -21,18 +21,24 @@ public class PowerBar : MonoBehaviour
 
     private Camera cam;
     private DataTracker dataTracker;
+    private Board board;
     private bool isUp;
+    private bool isLeft;
     private bool powerReady = false;
+    private CharacterData characterData;
 
     // Start is called before the first frame update
     void Start()
     {
         dataTracker = FindObjectOfType<DataTracker>();
         cam = FindObjectOfType<Camera>();
-        powerLevel =  80f;
-        healthBar.fillAmount = .80f;
-        classOfAnimal = classesOfAnimals[4].GetComponent<AnimalClass>();
+        board = FindObjectOfType<Board>();
+        powerLevel =  01f;
+        healthBar.fillAmount = .01f;
+        characterData = SaveSystem.LoadCharacterData();
+        classOfAnimal = classesOfAnimals[characterData.currentCharacter].GetComponent<AnimalClass>();
         icon.sprite = classOfAnimal.ReturnSprite();
+        isLeft = true;
     }
 
     // Update is called once per frame
@@ -80,6 +86,29 @@ public class PowerBar : MonoBehaviour
             healthBar.color = new Color32(255, 255, 255, 255);
         }
 
+        if(dataTracker.GetSessionState() != SessionState.NOTSTARTED)
+        {
+            if (isLeft)
+             {
+                Quaternion quar = Quaternion.Euler(0, 0, 6.2f);
+                icon.transform.localRotation = Quaternion.Lerp(icon.transform.localRotation, quar, Time.deltaTime * 1.2f);
+                 if (icon.transform.localRotation.z > .05f)
+                     isLeft = false;
+             }
+             else
+             {
+                Quaternion quar = Quaternion.Euler(0, 0, -6.2f);
+                icon.transform.localRotation = Quaternion.Lerp(icon.transform.localRotation, quar, Time.deltaTime * 1.2f);
+                if (icon.transform.localRotation.z < -.05f)
+                    isLeft = true;
+            }
+           // icon.transform.rotation = Quaternion.Euler(0, 0, -90);
+           // Debug.Log(icon.transform.rotation.z);
+           // Debug.Log(icon.transform.eulerAngles.z);
+
+
+        }
+
     }
 
     public void IncreasePowerLevel(float i)
@@ -122,6 +151,7 @@ public class PowerBar : MonoBehaviour
 
     private void Activate()
     {
+        board.activatedPower = true;
         classOfAnimal.ActivatePower();
         if (classOfAnimal.HasTimeExtension())
         {

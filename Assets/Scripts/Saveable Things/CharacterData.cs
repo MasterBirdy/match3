@@ -26,6 +26,18 @@ public class CharacterData
 
     public bool AddExperience(int score)
     {
+        experience[currentCharacter] += score;
+        int tempLevel = levels[currentCharacter];
         return false;
+    }
+
+    public void SaveCharacter(int i)
+    {
+        currentCharacter = i;
+    }
+
+    public int LoadCharacter()
+    {
+        return currentCharacter;
     }
 }

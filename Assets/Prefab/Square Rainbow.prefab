@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1071087710808562645}
   - component: {fileID: 1071087710808562644}
   m_Layer: 0
-  m_Name: Column Ring Particle
+  m_Name: Square Rainbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1071087710808562643}
   serializedVersion: 6
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 0.5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -284,7 +284,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.75
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -746,7 +746,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.5
+      value: 0.8
       mode: 0
       spread: 0
       speed:
@@ -1303,19 +1303,19 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.6513464, b: 0, a: 1}
-        key1: {r: 1, g: 0.7481132, b: 0.2783019, a: 1}
-        key2: {r: 1, g: 0.8526248, b: 0.57430875, a: 0}
-        key3: {r: 1, g: 0.7490196, b: 0.2784314, a: 0}
-        key4: {r: 1, g: 0.6509804, b: 0, a: 0}
-        key5: {r: 1, g: 1, b: 1, a: 0}
+        key0: {r: 1, g: 0.084195256, b: 0, a: 1}
+        key1: {r: 1, g: 0.56423336, b: 0, a: 1}
+        key2: {r: 1, g: 0.9371228, b: 0, a: 0}
+        key3: {r: 0, g: 1, b: 0.10618591, a: 0}
+        key4: {r: 0.11995434, g: 0.33666992, b: 1, a: 0}
+        key5: {r: 0.6528621, g: 0, b: 1, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 4819
-        ctime1: 18311
-        ctime2: 38936
-        ctime3: 50501
-        ctime4: 62066
+        ctime1: 17926
+        ctime2: 29876
+        ctime3: 41441
+        ctime4: 52621
         ctime5: 65535
         ctime6: 0
         ctime7: 0
@@ -1328,7 +1328,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 5
+        m_NumColorKeys: 6
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
