@@ -5,7 +5,7 @@ using UnityEngine;
 public interface AnimalClass
 {
     // Start is called before the first frame update
-    void ActivatePower();
+    void ActivatePower(int level);
     bool HasTimeExtension();
     string ReturnName();
     Sprite ReturnSprite();

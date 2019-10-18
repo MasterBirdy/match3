@@ -113,7 +113,7 @@ public class DataTracker : MonoBehaviour
             highScoreData.AddData(currentScore, powerBar.ReturnAnimalName());
         SaveSystem.SaveHighScore(highScoreData);
         yield return new WaitForSeconds(2f);
-        sceneLoader.LoadHighScoreScene();
+        sceneLoader.LoadExpScene();
     }
 
     public void PauseMusic()

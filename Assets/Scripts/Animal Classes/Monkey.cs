@@ -8,18 +8,18 @@ public class Monkey: MonoBehaviour, AnimalClass
     DataTracker dataTracker;
     Board board;
     [SerializeField] Sprite sprite;
-    public void ActivatePower()
+    public void ActivatePower(int level)
     {
         if (board == null)
             board = FindObjectOfType<Board>();
         if (findMatches == null)
             findMatches = FindObjectOfType<FindMatches>();
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < 3 + level; j++)
         {
             for (int i = 0; i < board.width; i++)
             {
                 GameObject testGameObject = board.allAnimals[i, j];
-                if (j == 0 || j == 3)
+                if (j == 0 || j == 2 + level)
                 {
                     if (i == 3 || i == 4)
                     {
@@ -27,7 +27,7 @@ public class Monkey: MonoBehaviour, AnimalClass
                         findMatches.currentMatches.Add(testGameObject);
                     }
                 }
-                else if (j == 1 || j == 2)
+                else if (j > 0 && j < 2 + level)
                 {
                     if (i == 4 || i == 5)
                     {

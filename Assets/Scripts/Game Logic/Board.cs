@@ -139,7 +139,8 @@ public class Board : MonoBehaviour
                 if (DestroyMatchesAt(j, i))
                 {
                     scoreUpdate += 100;
-                    powerBar.IncreasePowerLevel(1.5f);
+                    if(!activatedPower)
+                        powerBar.IncreasePowerLevel(1.5f);
                 }
             }
         }
@@ -211,7 +212,6 @@ public class Board : MonoBehaviour
         yield return new WaitForSeconds(.15f);
         while (MatchesOnBoard())
         {
-           
             yield return StartCoroutine(DestroyMatches());
         }
         findMatches.formedBombs.Clear();

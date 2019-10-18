@@ -15,18 +15,33 @@ public class Snake : MonoBehaviour, AnimalClass
     {
 
     }
-    public void ActivatePower()
+    public void ActivatePower(int level)
     {
         if (board == null)
             board = FindObjectOfType<Board>();
         if (findMatches == null)
             findMatches = FindObjectOfType<FindMatches>();
-        int j = Random.Range(0, 8);
-        for (int i = 0; i < board.width; i++)
+
+        List<int> randomList = new List<int>();
+
+        for (int i = 0; i < level; i++)
         {
-            GameObject testGameObject = board.allAnimals[i, j];
-            testGameObject.GetComponent<AnimalTile>().isMatched = true;
-            findMatches.currentMatches.Add(testGameObject);
+            int numToAdd = Random.Range(0, 8);
+            while (randomList.Contains(numToAdd))
+            {
+                numToAdd = Random.Range(0, 8);
+            }
+            randomList.Add(numToAdd);
+        }
+
+        foreach (int j in randomList)
+        {
+            for (int i = 0; i < board.width; i++)
+            {
+                GameObject testGameObject = board.allAnimals[i, j];
+                testGameObject.GetComponent<AnimalTile>().isMatched = true;
+                findMatches.currentMatches.Add(testGameObject);
+            }
         }
         board.StartDestroyAllNow();
     }

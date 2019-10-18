@@ -11,13 +11,13 @@ public class Penguin : MonoBehaviour, AnimalClass
     DataTracker dataTracker;
     Board board;
     [SerializeField] Sprite sprite;
-    public void ActivatePower()
+    public void ActivatePower(int level)
     {
         if (board == null)
             board = FindObjectOfType<Board>();
         if (findMatches == null)
             findMatches = FindObjectOfType<FindMatches>();
-        for (int j = 0; j < 2; j++)
+        for (int j = 0; j < level * 2; j++)
         {
             for (int i = 0; i < board.width; i++)
             {

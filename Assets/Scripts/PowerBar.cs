@@ -16,6 +16,7 @@ public class PowerBar : MonoBehaviour
     [SerializeField] public Image icon;
     [SerializeField] public GameObject[] classesOfAnimals;
     [SerializeField] public GameObject alertIcon;
+    [SerializeField] public Image animalImage;
     private GameObject currentAlert;
     private byte red;
     private AnimalClass classOfAnimal;
@@ -28,6 +29,7 @@ public class PowerBar : MonoBehaviour
     private bool isLeft;
     private bool powerReady = false;
     private CharacterData characterData;
+    private int characterLevel;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,7 @@ public class PowerBar : MonoBehaviour
         healthBar.fillAmount = .80f;
         characterData = SaveSystem.LoadCharacterData();
         classOfAnimal = classesOfAnimals[characterData.currentCharacter].GetComponent<AnimalClass>();
+        characterLevel = characterData.levels[characterData.currentCharacter];
         icon.sprite = classOfAnimal.ReturnSprite();
         isLeft = true;
         Vector3 tempVector = Camera.main.ScreenToWorldPoint(icon.transform.position);
@@ -121,7 +124,7 @@ public class PowerBar : MonoBehaviour
     private void Activate()
     {
         board.activatedPower = true;
-        classOfAnimal.ActivatePower();
+        classOfAnimal.ActivatePower(characterLevel);
         if (classOfAnimal.HasTimeExtension())
         {
             dataTracker.ExtendTime(5);

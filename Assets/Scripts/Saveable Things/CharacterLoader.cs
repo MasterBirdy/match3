@@ -14,9 +14,14 @@ public class CharacterLoader : MonoBehaviour
     SceneLoader sceneLoader;
     bool isUp;
     private float lerpSpeed = 1.05f;
+    private float starPadding = 40f;
     [SerializeField] GameObject star;
     [SerializeField] GameObject starHolder;
     [SerializeField] GameObject textBox;
+    [SerializeField] Image whiteFilling;
+    [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] Image animalImage;
+    [SerializeField] Sprite[] sprites;
     TextMeshProUGUI textAnimal;
     Canvas canvas;
 
@@ -29,8 +34,19 @@ public class CharacterLoader : MonoBehaviour
         chosenCharacter = characterData.currentCharacter;
         textAnimal = textBox.GetComponent<TextMeshProUGUI>();
         isUp = true;
+
+
         setUpButton(chosenCharacter);
+        animalImage.sprite = sprites[chosenCharacter];
+        levelText.text = "Lvl. " + characterData.levels[chosenCharacter];
+        whiteFilling.fillAmount = GetPercentage();
+
+
         StarLoader(starHolder.transform);
+        for (int i = 0; i < characterData.experience.Length; i++)
+        {
+            Debug.Log(characterData.experience[i]);
+        }
     }
 
     private void Update()
@@ -65,6 +81,9 @@ public class CharacterLoader : MonoBehaviour
         chosenCharacter = i;
         characterData.currentCharacter = i;
         setUpButton(chosenCharacter);
+        animalImage.sprite = sprites[chosenCharacter];
+        levelText.text = "Lvl. " + characterData.levels[chosenCharacter];
+        whiteFilling.fillAmount = GetPercentage();
     }
 
     private void setUpButton(int i)
@@ -109,16 +128,41 @@ public class CharacterLoader : MonoBehaviour
 
     private void StarLoader(Transform t)
     {
+        int j = 0;
         foreach (Transform child in t)
         {
             foreach (Transform childchild in child)
             {
                 Vector3 tempVector = childchild.transform.position;
                 childchild.gameObject.SetActive(false);
-                GameObject g = Instantiate(childchild.gameObject, tempVector, Quaternion.identity);
-                g.transform.parent = canvas.transform;
-                g.SetActive(true);
+                for (int i = 0; i < characterData.levels[j]; i++)
+                {
+                    tempVector.x = starPadding * i + childchild.transform.position.x;
+                    GameObject g = Instantiate(childchild.gameObject, tempVector, Quaternion.identity);
+                    g.transform.parent = canvas.transform;
+                    g.SetActive(true);
+                }
+                j++;
             }
         }
+    }
+    private float GetPercentage()
+    {
+        if (characterData.levels[chosenCharacter] == 1)
+        {
+            float t = (float) characterData.experience[chosenCharacter] / CharacterData.Level2;
+            if (t == 0)
+                t = .01f;
+            return t;
+        }
+        else if (characterData.levels[chosenCharacter] == 2)
+        {
+            float t = (float) characterData.experience[chosenCharacter] / CharacterData.Level3;
+            if (t == 0)
+                t = .01f;
+            return t;
+        }
+        else
+            return 1f;
     }
 }

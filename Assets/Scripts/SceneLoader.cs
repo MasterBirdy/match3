@@ -36,4 +36,9 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("Character Scene");
     }
 
+    public void LoadExpScene()
+    {
+        SceneManager.LoadScene("Exp Scene");
+    }
+
 }
