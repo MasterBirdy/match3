@@ -19,25 +19,21 @@ public class DataTracker : MonoBehaviour
     public int currentScore;
     public float time;
     private Board board;
-    public float countdownTimer;
     public float startCountdown;
     private bool isGameGoing;
     private SessionState sessionState;
     private SceneLoader sceneLoader;
-    private AudioSource audioSource;
     private PowerBar powerBar;
+
     // Start is called before the first frame update
     void Start()
     {
         timesUpText.enabled = false;
         board = FindObjectOfType<Board>();
         sceneLoader = FindObjectOfType<SceneLoader>();
-        audioSource = GetComponent<AudioSource>();
         powerBar = FindObjectOfType<PowerBar>();
         sessionState = SessionState.NOTSTARTED;
-        countdownTimer = 3f;
-        startCountdown = countdownTimer;
-        countdownTimer += .49f;
+
         NewGame();
     }
 
@@ -45,13 +41,13 @@ public class DataTracker : MonoBehaviour
     void Update()
     {
         Timer();
-        CountdownTimer();
     }
 
     public void NewGame()
     {
         currentScore = 0;
         time = 60;
+        StartCoroutine(CountDown());
     }
 
     public void UpdateScore(int number)
@@ -63,25 +59,6 @@ public class DataTracker : MonoBehaviour
     public void ExtendTime(int number)
     {
         time += number;
-    }
-
-    private void CountdownTimer()
-    {
-        if (sessionState == SessionState.NOTSTARTED)
-        {
-            countdownTimer -= Time.deltaTime;
-            if (countdownTimer <= 0.51f)
-            {
-                sessionState = SessionState.STARTED;
-                countdownText.enabled = false;
-                board.StartBoard();
-                audioSource.Play();
-            }
-            else
-            {
-                countdownText.text = "" + Mathf.Round(countdownTimer);
-            } 
-        }
     }
 
     private void Timer()
@@ -116,13 +93,18 @@ public class DataTracker : MonoBehaviour
         sceneLoader.LoadExpScene();
     }
 
-    public void PauseMusic()
+    private IEnumerator CountDown()
     {
-        audioSource.Pause();
+        for (int i = 3; i > 0; i--)
+        {
+            countdownText.text = "" + i;
+            AudioManager.instance.PlayCountdownSound();
+            yield return new WaitForSeconds(1f);
+        }
+        sessionState = SessionState.STARTED;
+        countdownText.enabled = false;
+        board.StartBoard();
+        AudioManager.instance.PlayMusic(1);
     }
 
-    public void UnpauseMusic()
-    {
-        audioSource.Play();
-    }
 }

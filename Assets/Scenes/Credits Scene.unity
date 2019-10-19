@@ -220,7 +220,7 @@ RectTransform:
   m_GameObject: {fileID: 89531039}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 4.2, y: 4.2, z: 1}
   m_Children: []
   m_Father: {fileID: 357989196}
   m_RootOrder: 3
@@ -301,7 +301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 110}
+  m_AnchoredPosition: {x: 0, y: 90}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &257282963
@@ -326,9 +326,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Thanks to:
 
-    kenney for art assets
-
-    tnknwrks for drawings
+    kenney, GameArtForge, and tnknwrks for art assets
 
     Subspace Audio and SketchyLogic for music'
   m_isRightToLeft: 0
@@ -359,8 +357,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 56
+  m_fontSizeBase: 56
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -400,7 +398,7 @@ MonoBehaviour:
   m_margin: {x: -196.08884, y: 0, z: -205.34027, w: 0}
   m_textInfo:
     textComponent: {fileID: 257282963}
-    characterCount: 96
+    characterCount: 102
     spriteCount: 0
     spaceCount: 14
     wordCount: 15

@@ -9,6 +9,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadStartScene()
     {
         SceneManager.LoadScene(0);
+        AudioManager.instance.PlayMusic(0);
     }
 
     public void QuitGame()
@@ -19,11 +20,13 @@ public class SceneLoader : MonoBehaviour
     public void LoadCreditsScene()
     {
         SceneManager.LoadScene("Credits Scene");
+        AudioManager.instance.StopMusic();
     }
 
     public void StartGame()
     {
         SceneManager.LoadScene("Main Game");
+        AudioManager.instance.StopMusic();
     }
 
     public void LoadHighScoreScene()
@@ -34,11 +37,13 @@ public class SceneLoader : MonoBehaviour
     public void LoadCharacterScene()
     {
         SceneManager.LoadScene("Character Scene");
+        AudioManager.instance.StopMusic();
     }
 
     public void LoadExpScene()
     {
         SceneManager.LoadScene("Exp Scene");
+        AudioManager.instance.StopMusic();
     }
 
 }

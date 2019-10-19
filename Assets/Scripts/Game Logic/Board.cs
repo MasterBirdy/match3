@@ -145,13 +145,13 @@ public class Board : MonoBehaviour
             }
         }
         if (activatedColumnBomb)
-            audioSource.PlayOneShot(beeps[6]);
+            AudioManager.instance.PlayColumnBombSound();
         else if (activatedRowBomb)
-            audioSource.PlayOneShot(beeps[7]);
+            AudioManager.instance.PlayRowBombSound();
         else if (activatedPower)
-            audioSource.PlayOneShot(beeps[8]);
+            AudioManager.instance.PlayPowerUse();
         else
-            audioSource.PlayOneShot(beeps[Random.Range(0, 6)]);
+            AudioManager.instance.PlayHitSound();
         activatedColumnBomb = false;
         activatedRowBomb = false;
         activatedPower = false;

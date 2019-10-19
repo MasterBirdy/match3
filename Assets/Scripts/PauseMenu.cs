@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool gameIsPaused = false;
+    public static bool gameIsPaused;
     public GameObject pauseMenuUI;
     private DataTracker dataTracker;
     private SceneLoader sceneLoader;
@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     {
         dataTracker = FindObjectOfType<DataTracker>();
         sceneLoader = FindObjectOfType<SceneLoader>();
+        gameIsPaused = false;
     }
 
     // Update is called once per frame
@@ -35,7 +36,7 @@ public class PauseMenu : MonoBehaviour
     private void Pause()
     {
         pauseMenuUI.SetActive(true);
-        dataTracker.PauseMusic();
+        AudioManager.instance.PauseMusic();
         Time.timeScale = 0f;
         gameIsPaused = true;
     }
@@ -43,8 +44,8 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        AudioManager.instance.Play();
         Time.timeScale = 1f;
-        dataTracker.UnpauseMusic();
         gameIsPaused = false;
     }
 

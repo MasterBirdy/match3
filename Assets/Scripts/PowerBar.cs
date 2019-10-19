@@ -15,8 +15,9 @@ public class PowerBar : MonoBehaviour
     [SerializeField] public GameObject text;
     [SerializeField] public Image icon;
     [SerializeField] public GameObject[] classesOfAnimals;
+    [SerializeField] public Sprite[] classesOfAnimalImages;
     [SerializeField] public GameObject alertIcon;
-    [SerializeField] public Image animalImage;
+    public Image animalImage;
     private GameObject currentAlert;
     private byte red;
     private AnimalClass classOfAnimal;
@@ -43,6 +44,7 @@ public class PowerBar : MonoBehaviour
         classOfAnimal = classesOfAnimals[characterData.currentCharacter].GetComponent<AnimalClass>();
         characterLevel = characterData.levels[characterData.currentCharacter];
         icon.sprite = classOfAnimal.ReturnSprite();
+        animalImage.sprite = classesOfAnimalImages[characterData.currentCharacter];
         isLeft = true;
         Vector3 tempVector = Camera.main.ScreenToWorldPoint(icon.transform.position);
         tempVector = new Vector3(tempVector.x, tempVector.y + 1.03f, 0);
@@ -124,6 +126,7 @@ public class PowerBar : MonoBehaviour
     private void Activate()
     {
         board.activatedPower = true;
+        StartCoroutine(PowerAnimation());
         classOfAnimal.ActivatePower(characterLevel);
         if (classOfAnimal.HasTimeExtension())
         {
@@ -142,5 +145,22 @@ public class PowerBar : MonoBehaviour
     public string ReturnAnimalName()
     {
         return classOfAnimal.ReturnName();
+    }
+
+    private IEnumerator PowerAnimation()
+    {
+        for (int i = (int) animalImage.transform.position.x; i > 713 ;i -= 2)
+        {
+            Debug.Log(animalImage.transform.position.x);
+            animalImage.transform.position = new Vector3(i, animalImage.transform.position.y, animalImage.transform.position.z);
+            yield return new WaitForSeconds(.006f);
+        }
+        yield return new WaitForSeconds(1.3f);
+        for (int i = (int)animalImage.transform.position.x; i <900; i++)
+        {
+            animalImage.transform.position = new Vector3(i, animalImage.transform.position.y, animalImage.transform.position.z);
+            yield return new WaitForSeconds(.0015f);
+        }
+
     }
 }

@@ -11,7 +11,12 @@ public class ToggleScript : MonoBehaviour
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        if (AudioManager.instance.isMuted == true)
+        {
+            musicOn.SetActive(false);
+            musicOff.SetActive(true);
+            GetComponent<Toggle>().isOn = false;
+        }
     }
 
     public void OnValueChange()
@@ -21,13 +26,15 @@ public class ToggleScript : MonoBehaviour
         {
             musicOff.SetActive(false);
             musicOn.SetActive(true);
-            audioSource.Play();
+            AudioManager.instance.isMuted = false;
+            AudioManager.instance.PlayMusic(0);
         }
         else
         {
             musicOn.SetActive(false);
             musicOff.SetActive(true);
-            audioSource.Stop();
+            AudioManager.instance.isMuted = true;
+            AudioManager.instance.StopMusic();
         }
     }
 }
