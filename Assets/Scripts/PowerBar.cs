@@ -95,7 +95,6 @@ public class PowerBar : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && healthBar.fillAmount == 1f)
         {
             Activate();
-            healthBar.color = new Color32(255, 255, 255, 255);
         }
 
         if(dataTracker.GetSessionState() != SessionState.NOTSTARTED)
@@ -125,9 +124,11 @@ public class PowerBar : MonoBehaviour
 
     private void Activate()
     {
-        StartCoroutine(PowerAnimation());
+        healthBar.color = new Color32(255, 255, 255, 255);
+        currentAlert.SetActive(false);
         powerLevel = .01f;
         healthBar.fillAmount = .01f;
+        StartCoroutine(PowerAnimation());
         board.activatedPower = true;
         classOfAnimal.ActivatePower(characterLevel);
         if (classOfAnimal.HasTimeExtension())
@@ -138,7 +139,6 @@ public class PowerBar : MonoBehaviour
             GameObject explode = Instantiate(explosion, tempVector, Quaternion.identity);
             Destroy(explode, 2f);
         }
-        currentAlert.SetActive(false);
         powerReady = false;
     }
 
@@ -149,10 +149,10 @@ public class PowerBar : MonoBehaviour
 
     private IEnumerator PowerAnimation()
     {
-        for (int i = (int) animalImage.transform.position.x; i > 713 ;i -= 2)
+        for (int i = (int) animalImage.transform.position.x; i > 713 ;i -= 3)
         {
             animalImage.transform.position = new Vector3(i, animalImage.transform.position.y, animalImage.transform.position.z);
-            yield return new WaitForSeconds(.002f);
+            yield return new WaitForSeconds(.008f);
         }
         yield return new WaitForSeconds(1.3f);
         for (int i = (int)animalImage.transform.position.x; i <900; i++)
