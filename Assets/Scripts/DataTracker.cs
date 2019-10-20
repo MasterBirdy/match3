@@ -83,13 +83,13 @@ public class DataTracker : MonoBehaviour
 
     private IEnumerator EndGame()
     {
+        yield return new WaitForSeconds(2f);
         HighScoreData highScoreData = SaveSystem.LoadHighScore();
         if (highScoreData == null)
             highScoreData = new HighScoreData(currentScore, powerBar.ReturnAnimalName());
         else
             highScoreData.AddData(currentScore, powerBar.ReturnAnimalName());
         SaveSystem.SaveHighScore(highScoreData);
-        yield return new WaitForSeconds(2f);
         sceneLoader.LoadExpScene();
     }
 

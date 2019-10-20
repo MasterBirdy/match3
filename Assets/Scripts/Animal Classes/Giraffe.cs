@@ -20,10 +20,10 @@ public class Giraffe : MonoBehaviour, AnimalClass
 
         for (int i = 0; i < level; i++)
         {
-            int numToAdd = Random.Range(0, 8);
+            int numToAdd = Random.Range(0, 7);
             while (randomList.Contains(numToAdd))
             {
-                numToAdd = Random.Range(0, 8);
+                numToAdd = Random.Range(0, 7);
             }
             randomList.Add(numToAdd);
         }

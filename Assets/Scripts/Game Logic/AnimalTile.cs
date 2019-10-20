@@ -56,29 +56,6 @@ public class AnimalTile : MonoBehaviour
 
     }
 
-    //debug features
-    /*
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log(board.allAnimals[column, row].GetComponent<AnimalTile>().tag +
-            " " + board.allAnimals[column, row].GetComponent<AnimalTile>().column + " "
-            + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
-        }
-    }
-   
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            isRowBomb = true;
-            GetComponent<SpriteRenderer>().sprite = rowBomb;
-            tag = "Bomb";
-        }
-    }
-     */
-
     // Update is called once per frame
     void Update()
     {
@@ -270,7 +247,7 @@ public class AnimalTile : MonoBehaviour
         else if (swipeAngle < -45 && swipeAngle >= -135 && row > 0)
         {
             // down swipe
-            Debug.Log(board.allAnimals[column, row - 1].tag);
+
 
             otherAnimal = board.allAnimals[column, row - 1];
 
@@ -284,9 +261,7 @@ public class AnimalTile : MonoBehaviour
             board.allAnimals[column, row] = gameObject;
             Switcharoo(otherAnimal.GetComponent<AnimalTile>());
         }
-        Debug.Log(column + " " + row + "  vs. " + board.allAnimals[column, row].GetComponent<AnimalTile>().tag +
-            " " + board.allAnimals[column, row].GetComponent<AnimalTile>().column + " "
-            + board.allAnimals[column, row].GetComponent<AnimalTile>().row);
+
         StartCoroutine(CheckMoveCo());
     }
 

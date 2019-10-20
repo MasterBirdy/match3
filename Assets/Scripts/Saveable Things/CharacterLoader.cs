@@ -43,10 +43,7 @@ public class CharacterLoader : MonoBehaviour
 
 
         StarLoader(starHolder.transform);
-        for (int i = 0; i < characterData.experience.Length; i++)
-        {
-            Debug.Log(characterData.experience[i]);
-        }
+
     }
 
     private void Update()
@@ -139,7 +136,7 @@ public class CharacterLoader : MonoBehaviour
                 {
                     tempVector.x = starPadding * i + childchild.transform.position.x;
                     GameObject g = Instantiate(childchild.gameObject, tempVector, Quaternion.identity);
-                    g.transform.parent = canvas.transform;
+                    g.transform.SetParent(canvas.transform);
                     g.SetActive(true);
                 }
                 j++;

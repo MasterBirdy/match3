@@ -38,8 +38,8 @@ public class PowerBar : MonoBehaviour
         dataTracker = FindObjectOfType<DataTracker>();
         cam = FindObjectOfType<Camera>();
         board = FindObjectOfType<Board>();
-        powerLevel =  80f;
-        healthBar.fillAmount = .80f;
+        powerLevel =  .01f;
+        healthBar.fillAmount = .01f;
         characterData = SaveSystem.LoadCharacterData();
         classOfAnimal = classesOfAnimals[characterData.currentCharacter].GetComponent<AnimalClass>();
         characterLevel = characterData.levels[characterData.currentCharacter];
@@ -125,8 +125,10 @@ public class PowerBar : MonoBehaviour
 
     private void Activate()
     {
-        board.activatedPower = true;
         StartCoroutine(PowerAnimation());
+        powerLevel = .01f;
+        healthBar.fillAmount = .01f;
+        board.activatedPower = true;
         classOfAnimal.ActivatePower(characterLevel);
         if (classOfAnimal.HasTimeExtension())
         {
@@ -137,8 +139,6 @@ public class PowerBar : MonoBehaviour
             Destroy(explode, 2f);
         }
         currentAlert.SetActive(false);
-        powerLevel = .01f;
-        healthBar.fillAmount = .01f;
         powerReady = false;
     }
 
@@ -151,9 +151,8 @@ public class PowerBar : MonoBehaviour
     {
         for (int i = (int) animalImage.transform.position.x; i > 713 ;i -= 2)
         {
-            Debug.Log(animalImage.transform.position.x);
             animalImage.transform.position = new Vector3(i, animalImage.transform.position.y, animalImage.transform.position.z);
-            yield return new WaitForSeconds(.006f);
+            yield return new WaitForSeconds(.002f);
         }
         yield return new WaitForSeconds(1.3f);
         for (int i = (int)animalImage.transform.position.x; i <900; i++)

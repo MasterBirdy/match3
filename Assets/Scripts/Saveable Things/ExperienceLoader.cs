@@ -55,6 +55,7 @@ public class ExperienceLoader : MonoBehaviour
         int i = currentScore;
         int j = currentExp;
         int difference = 100;
+        AudioManager.instance.PlayExperienceGainedSound();
          while (i > 0)
          {
              i -= difference;
@@ -66,12 +67,15 @@ public class ExperienceLoader : MonoBehaviour
              if (testPercentage > 1f)
                  testPercentage = 1f;
              healthBar.fillAmount = testPercentage;
-             yield return new WaitForSeconds(.01f);
+            if (!AudioManager.instance.isPlayingSound)
+                StartCoroutine(AudioManager.instance.PlayExperienceGainedSound());
+            yield return new WaitForSeconds(.005f);
         }
         yield return new WaitForSeconds(1f);
         if (levelGained)
         {
             explosion.SetActive(true);
+            AudioManager.instance.PlayLevelUpSound();
             levelTextObject.text = "Level: " + (characterLevel + 1);
         }
 
@@ -81,7 +85,6 @@ public class ExperienceLoader : MonoBehaviour
     {
         if (characterLevel == 1)
         {
-            Debug.Log(i / CharacterData.Level2);
             return i / CharacterData.Level2;
         }
         else if (characterLevel == 2)

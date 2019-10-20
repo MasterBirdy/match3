@@ -13,8 +13,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] public AudioClip rowPowerUp;
     [SerializeField] public AudioClip powerUse;
     [SerializeField] public AudioClip countdownSound;
+    [SerializeField] public AudioClip expGainedSound;
+    [SerializeField] public AudioClip levelUpSound;
 
     public bool isMuted = false;
+    public bool isPlayingSound = false;
 
     public static AudioManager instance = null;
     private void Awake()
@@ -95,4 +98,24 @@ public class AudioManager : MonoBehaviour
     {
         sound.PlayOneShot(countdownSound);
     }
+
+    public IEnumerator PlayExperienceGainedSound()
+    {
+        isPlayingSound = true;
+        sound.clip = expGainedSound;
+        sound.Play();
+        yield return new WaitForSeconds(.15f);
+        isPlayingSound = false;
+    }
+
+    public void StopExperienceGainedSound()
+    {
+        sound.loop = false;
+    }
+
+    public void PlayLevelUpSound()
+    {
+        sound.PlayOneShot(levelUpSound);
+    }
+
 }

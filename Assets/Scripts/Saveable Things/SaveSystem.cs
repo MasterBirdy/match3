@@ -8,7 +8,7 @@ public static class SaveSystem
     public static void SaveHighScore (HighScoreData highScoreData)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/player.kev";
+        string path = Application.persistentDataPath + "/highscore.data";
         FileStream stream = new FileStream(path, FileMode.Create);
 
         HighScoreData data = highScoreData;
@@ -19,10 +19,10 @@ public static class SaveSystem
 
     public static HighScoreData LoadHighScore()
     {
-        string path = Application.persistentDataPath + "/player.kev";
+        string path = Application.persistentDataPath + "/highscore.data";
         if (File.Exists(path))
         {
-            Debug.Log(path);
+           // Debug.Log(path);
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             HighScoreData data = formatter.Deserialize(stream) as HighScoreData;
@@ -41,7 +41,7 @@ public static class SaveSystem
     public static void SaveCharacterData(CharacterData characterData)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/kev.sucks";
+        string path = Application.persistentDataPath + "/character.data";
         FileStream stream = new FileStream(path, FileMode.Create);
         CharacterData data = characterData;
         formatter.Serialize(stream, data);
@@ -50,10 +50,10 @@ public static class SaveSystem
 
     public static CharacterData LoadCharacterData()
     {
-        string path = Application.persistentDataPath + "/kev.sucks";
+        string path = Application.persistentDataPath + "/character.data";
         if (File.Exists(path))
         {
-            Debug.Log(path);
+           // Debug.Log(path);
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             CharacterData data = formatter.Deserialize(stream) as CharacterData;

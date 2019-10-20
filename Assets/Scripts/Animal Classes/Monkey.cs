@@ -21,15 +21,16 @@ public class Monkey: MonoBehaviour, AnimalClass
                 GameObject testGameObject = board.allAnimals[i, j];
                 if (j == 0 || j == 2 + level)
                 {
-                    if (i == 3 || i == 4)
+                    if (i >= 3 && i <= 5)
                     {
                         testGameObject.GetComponent<AnimalTile>().isMatched = true;
                         findMatches.currentMatches.Add(testGameObject);
                     }
                 }
-                else if (j > 0 && j < 2 + level)
+                else if (j > 0 && j < 2 + level
+                    )
                 {
-                    if (i == 4 || i == 5)
+                    if (i >= 4 && i <= 6)
                     {
                         testGameObject.GetComponent<AnimalTile>().isMatched = true;
                         findMatches.currentMatches.Add(testGameObject);
